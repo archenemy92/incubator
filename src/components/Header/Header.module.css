@@ -1,0 +1,15 @@
+.header {
+    grid-area: h;
+    background-color: rosybrown;
+    display: flex;
+}
+.header img {
+    width: 115px;
+    height: 60px;
+}
+.input {
+    margin-top: 12px;
+    margin-left: 10px;
+    width: 20%;
+    height: 30px;
+}

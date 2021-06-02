@@ -1,0 +1,17 @@
+
+.avaDesc {
+    display: flex;
+    justify-content: space-between;
+}
+.ava {
+    border-radius: 50%;
+    width: 150px;
+}
+.desc {
+    float: right;
+}
+
+.textarea {
+    width: 100%;
+    margin-top: 10px;
+}

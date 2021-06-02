@@ -1,0 +1,12 @@
+.sidebar div img {
+    width: 30px;
+    border-radius: 50%;
+}
+
+.sidebar_content {
+    margin: 10px 0 10px 0;
+}
+
+a .sidebar_activeLink {
+    color: blue;
+}

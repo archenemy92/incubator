@@ -1,0 +1,61 @@
+.dialogs_content {
+    display: grid;
+    grid-template-areas:
+    "i"
+    "a";
+    grid-template-rows: 1fr 20vm;
+    grid-gap: 5px;
+    margin: 10px 0;
+}
+
+.dialogs_items {
+    grid-area: i;
+    display: grid;
+    grid-template-areas:
+    "n m";
+    grid-template-columns: 3fr 9fr;
+    width: 100%;
+
+}
+
+.dialogs_actions {
+    grid-area: a;
+    margin: 10px 0 0 0;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+
+}
+
+.dialogs_names {
+    grid-area: n;
+    margin: 0 20px 0 20px;
+    min-width: 100px;
+}
+
+.dialogs_names a {
+    text-decoration: none;
+    font-weight: bolder;
+    color: black;
+}
+
+.dialogs_names div {
+    margin: 0 0 10px 0;
+}
+
+a:hover {
+    color: darkgray;
+}
+
+.dialogs_names .dialogs_Link {
+    color: blue;
+}
+
+.dialogs_messages {
+    display: flex;
+}
+
+a img {
+    width: 30px;
+    border-radius: 50%;
+}

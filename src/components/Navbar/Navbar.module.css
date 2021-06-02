@@ -1,0 +1,28 @@
+.nav {
+    grid-area: n;
+    padding: 5px;
+    text-align: center;
+    width: 100px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+.nav a{
+    text-decoration: none;
+    color: black;
+}
+
+.nav a.nav_activeLink {
+    color: blue;
+}
+
+.nav_link {
+    margin: 10px;
+}
+a:hover {
+    color: darkgray;
+}
+
+.side {
+    margin: 100px 0 0 0 ;
+}
