@@ -1,23 +1,26 @@
-import React from "react"
+import React, {useState} from "react"
 import style from "./dialogs.module.css"
 import {FriendMessage} from "./Messages/FriendMessage"
 import {MyMessage} from "./Messages/MyMessage"
-import {DialogItemsType} from "../../redux/store"
+import {DialogItemsType, MessagesType} from "../../redux/store"
 import {DialogItems} from "./DialogItems/DialogItems"
 
 type DialogsPropsType = {
     dialogData: DialogItemsType[]
+    addMessage: (body: string) => void
+    messages: MessagesType[]
 }
-export const Dialogs:React.FC<DialogsPropsType> = (props) => {
 
-    let textareaValue = React.createRef<HTMLTextAreaElement>()
+export const Dialogs: React.FC<DialogsPropsType> = (props) => {
+    const [messageBody, setMessageBody] = useState("")
+
     const addMessage = () => {
-        let message = textareaValue.current?.value
-        alert(message)
+        props.addMessage(messageBody)
+        setMessageBody("")
     }
 
-    const dialogsElem = props.dialogData.map(d=><DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
-
+    const dialogsElem = props.dialogData.map(d => <DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
+    const message = props.messages.map(m=><MyMessage key={m.id} ava={m.img} text={m.body}/>)
     return (
         <div className={style.dialogs_content}>
             <div className={style.dialogs_items}>
@@ -25,17 +28,19 @@ export const Dialogs:React.FC<DialogsPropsType> = (props) => {
                     {dialogsElem}
                 </div>
                 <div className={style.dialogs_messages}>
-                    <div className={style.dialogs_friendMessage} >
+                    <div className={style.dialogs_friendMessage}>
                         <FriendMessage/>
                     </div>
                     <div className={style.dialogs_myMessage}>
-                        <MyMessage/>
+                        {message}
                     </div>
                 </div>
             </div>
             <div className={style.dialogs_actions}>
                 <div className={style.dialogs_actions_textarea}>
-                    <textarea className={style.dialogs_textarea} ref={textareaValue}/>
+                    <textarea className={style.dialogs_textarea}
+                              value={messageBody}
+                              onChange={(e) => setMessageBody(e.currentTarget.value)}/>
                 </div>
                 <div className={style.dialogs_actions_button}>
                     <button onClick={addMessage}>SEND</button>
