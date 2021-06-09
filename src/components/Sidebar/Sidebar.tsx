@@ -5,7 +5,7 @@ import styles from "./Sidebar.module.css"
 type SidebarPropsType = {
     name: string
     ava: string
-    id: number
+    id: string
 }
 
 export const Sidebar: React.FC<SidebarPropsType> = (props) => {
