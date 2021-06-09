@@ -1,28 +1,22 @@
 import React from "react"
 import style from "./MyMessage.module.css"
 
-export const MyMessage = () => {
+type MyMessageType = {
+    ava: string
+    text: string
+}
+
+export const MyMessage:React.FC<MyMessageType> = (props) => {
     return (
         <div className={style.myMessage}>
             <div className={style.myMessage_ava}>
                 <img
                     alt={"name"}
-                    src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"}/>
+                    src={props.ava}/>
             </div>
             <div className={style.myMessage_content}>
                 <div className={style.myMessage_text}>
-                    MY text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
-                    text text text text text text text text
+                    {props.text}
                 </div>
                 <div className={style.myMessage_infoAct}>
                     <div >{new Date().toLocaleString()}</div>
