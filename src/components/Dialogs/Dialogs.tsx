@@ -10,6 +10,12 @@ type DialogsPropsType = {
 }
 export const Dialogs:React.FC<DialogsPropsType> = (props) => {
 
+    let textareaValue = React.createRef<HTMLTextAreaElement>()
+    const addMessage = () => {
+        let message = textareaValue.current?.value
+        alert(message)
+    }
+
     const dialogsElem = props.dialogData.map(d=><DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
 
     return (
@@ -19,7 +25,7 @@ export const Dialogs:React.FC<DialogsPropsType> = (props) => {
                     {dialogsElem}
                 </div>
                 <div className={style.dialogs_messages}>
-                    <div className={style.dialogs_friendMessage}>
+                    <div className={style.dialogs_friendMessage} >
                         <FriendMessage/>
                     </div>
                     <div className={style.dialogs_myMessage}>
@@ -29,10 +35,10 @@ export const Dialogs:React.FC<DialogsPropsType> = (props) => {
             </div>
             <div className={style.dialogs_actions}>
                 <div className={style.dialogs_actions_textarea}>
-                    <textarea className={style.dialogs_textarea}/>
+                    <textarea className={style.dialogs_textarea} ref={textareaValue}/>
                 </div>
                 <div className={style.dialogs_actions_button}>
-                    <button>SEND</button>
+                    <button onClick={addMessage}>SEND</button>
                 </div>
             </div>
         </div>
