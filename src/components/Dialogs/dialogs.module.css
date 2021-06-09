@@ -52,7 +52,22 @@ a:hover {
 }
 
 .dialogs_messages {
-    display: flex;
+    display: grid;
+    grid-template-areas:
+            "f"
+            "m";
+    grid-gap: 10px;
+    grid-template-rows: min-content min-content;
+}
+
+.dialogs_friendMessage {
+    grid-area: f;
+
+}
+
+.dialogs_myMessage {
+    grid-area: m;
+
 }
 
 a img {
