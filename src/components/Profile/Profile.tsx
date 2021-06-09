@@ -7,12 +7,13 @@ import {PostType} from "../../redux/store"
 
 type ProfilePropsType = {
     postData: PostType[]
+    addPost: (message: string)=>void
 }
 export const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <div className={styles.content}>
             <AvaDesc/>
-            <Posts postData={props.postData}/>
+            <Posts postData={props.postData} addPost={props.addPost}/>
         </div>
     )
 }
