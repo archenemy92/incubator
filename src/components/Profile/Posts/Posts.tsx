@@ -1,19 +1,22 @@
-import React, {KeyboardEvent} from "react"
+import React, {KeyboardEvent, useState} from "react"
 import {PostType} from "../../../redux/store"
 import styles from "../Profile.module.css"
 import {Post} from "./Post/Post"
 
 type PostsPropsType = {
     postData: PostType[]
+    addPost: (message: string) => void
 }
 export const Posts: React.FC<PostsPropsType> = (props) => {
+    const [postText, setPostText] = useState("")
 
-    let textareaValue = React.createRef<HTMLTextAreaElement>()
+
     let addPost = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-        if(e.key === "Enter" && e.shiftKey) {
-            let text = textareaValue.current?.value
-            alert(text)
+        if (e.shiftKey && e.key === "Enter") {
+            props.addPost(postText)
+            setPostText("")
         }
+
     }
 
     let post = props.postData.map(p => <Post key={p.id} message={p.message} like={p.like} dislike={p.dislike}
@@ -22,7 +25,8 @@ export const Posts: React.FC<PostsPropsType> = (props) => {
     return (
         <div className={styles.post}>
             <textarea className={styles.textarea}
-                      ref={textareaValue}
+                      value={postText}
+                      onChange={(e)=>setPostText(e.currentTarget.value)}
                       onKeyPress={addPost}/>
             <div>
                 {post}
