@@ -14,13 +14,14 @@ type DialogsPropsType = {
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     const [messageBody, setMessageBody] = useState("")
 
+
     const addMessage = () => {
         props.addMessage(messageBody)
         setMessageBody("")
     }
 
     const dialogsElem = props.dialogData.map(d => <DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
-    const message = props.messages.map(m=><MyMessage key={m.id} ava={m.img} text={m.body}/>)
+    const message = props.messages.map(m => <MyMessage key={m.id} ava={m.img} text={m.body}/>)
     return (
         <div className={style.dialogs_content}>
             <div className={style.dialogs_items}>
