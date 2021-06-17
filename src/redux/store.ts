@@ -49,13 +49,38 @@ export type StateType = {
 }
 export type StoreType = {
     _state: StateType
-    addPost: (message: string) => void
-    addMessage: (body: string) => void
     _callSubscriber: (state: StateType) => void
     subscribe: (observer: (state: StateType) => void) => void
     getState: () => StateType
-
+    dispatch: (action: ActionsType) => void
 }
+
+export const PROFILE_ADD_POST = "PROFILE_ADD_POST"
+export const DIALOGS_ADD_MESSAGE = "DIALOGS_ADD_MESSAGE"
+
+export type ActionsType = AddPostType| AddMessageType
+
+export type AddPostType = {
+    type: typeof PROFILE_ADD_POST
+    message: string
+}
+export type AddMessageType = {
+    type: typeof DIALOGS_ADD_MESSAGE
+    body: string
+}
+
+/*export const addPost = (message: string): AddPostType => {
+    return {
+        type: PROFILE_ADD_POST,
+        message
+    }
+}
+export const addMessage = (body: string): AddMessageType => {
+    return {
+        type: DIALOGS_ADD_MESSAGE,
+        body
+    }
+}*/
 
 export const store: StoreType = {
     _state: {
@@ -90,24 +115,24 @@ export const store: StoreType = {
         }
     },
 
-    getState(){
+    getState() {
         return this._state
     },
-
-    addPost(message: string) {
-        let newPost = {
-            message, id: v1(), like: 0, dislike: 0, img: ava
+    dispatch(action: ActionsType) {
+        if (action.type === PROFILE_ADD_POST) {
+            let newPost = {
+                message: action.message, id: v1(), like: 0, dislike: 0, img: ava
+            }
+            this._state.profilePage.postData.push(newPost)
+            this._callSubscriber(this._state)
         }
-        this._state.profilePage.postData.push(newPost)
-        this._callSubscriber(this._state)
-    },
-
-    addMessage(body: string) {
-        let newMessage = {
-            body, id: v1(), img: ava
+        if (action.type === DIALOGS_ADD_MESSAGE) {
+            let newMessage = {
+                body: action.body, id: v1(), img: ava
+            }
+            this._state.dialogsPage.messages.push(newMessage)
+            this._callSubscriber(this._state)
         }
-        this._state.dialogsPage.messages.push(newMessage)
-        this._callSubscriber(this._state)
     },
 
     subscribe(observer: (state: StateType) => void) {
