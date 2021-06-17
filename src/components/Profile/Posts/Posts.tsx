@@ -1,5 +1,5 @@
 import React, {KeyboardEvent, useState} from "react"
-import {ActionsType, PostType, PROFILE_ADD_POST} from "../../../redux/store"
+import {ActionsType, addPostAC, PostType} from "../../../redux/store"
 import styles from "../Profile.module.css"
 import {Post} from "./Post/Post"
 
@@ -13,7 +13,7 @@ export const Posts: React.FC<PostsPropsType> = (props) => {
 
     let addPost = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.shiftKey && e.key === "Enter") {
-            props.dispatch({type: PROFILE_ADD_POST, message: postText})
+            props.dispatch(addPostAC(postText))
             setPostText("")
         }
 
