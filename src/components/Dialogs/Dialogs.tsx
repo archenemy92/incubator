@@ -2,13 +2,13 @@ import React, {useState} from "react"
 import style from "./dialogs.module.css"
 import {FriendMessage} from "./Messages/FriendMessage"
 import {MyMessage} from "./Messages/MyMessage"
-import {DialogItemsType, MessagesType} from "../../redux/store"
+import {ActionsType, DialogItemsType, DIALOGS_ADD_MESSAGE, MessagesType} from "../../redux/store"
 import {DialogItems} from "./DialogItems/DialogItems"
 
 type DialogsPropsType = {
     dialogData: DialogItemsType[]
-    addMessage: (body: string) => void
     messages: MessagesType[]
+    dispatch: (action: ActionsType) => void
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
@@ -16,7 +16,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
 
     const addMessage = () => {
-        props.addMessage(messageBody)
+        props.dispatch({type: DIALOGS_ADD_MESSAGE, body: messageBody})
         setMessageBody("")
     }
 
