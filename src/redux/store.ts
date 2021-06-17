@@ -69,18 +69,18 @@ export type AddMessageType = {
     body: string
 }
 
-/*export const addPost = (message: string): AddPostType => {
+export const addPostAC = (message: string): AddPostType => {
     return {
         type: PROFILE_ADD_POST,
         message
     }
 }
-export const addMessage = (body: string): AddMessageType => {
+export const addMessageAC = (body: string): AddMessageType => {
     return {
         type: DIALOGS_ADD_MESSAGE,
         body
     }
-}*/
+}
 
 export const store: StoreType = {
     _state: {
