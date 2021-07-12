@@ -1,6 +1,9 @@
 import {v1} from "uuid"
+import {AddPostType, profileReducer} from "./profileReducer"
+import {AddMessageType, dialogReducer} from "./dialogsReducer"
+import {sidebarReducer} from "./sidebarReducer"
 
-let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
+export let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
 
 export type PostType = {
@@ -55,32 +58,10 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-export const PROFILE_ADD_POST = "PROFILE_ADD_POST"
-export const DIALOGS_ADD_MESSAGE = "DIALOGS_ADD_MESSAGE"
 
 export type ActionsType = AddPostType| AddMessageType
 
-export type AddPostType = {
-    type: typeof PROFILE_ADD_POST
-    message: string
-}
-export type AddMessageType = {
-    type: typeof DIALOGS_ADD_MESSAGE
-    body: string
-}
 
-export const addPostAC = (message: string): AddPostType => {
-    return {
-        type: PROFILE_ADD_POST,
-        message
-    }
-}
-export const addMessageAC = (body: string): AddMessageType => {
-    return {
-        type: DIALOGS_ADD_MESSAGE,
-        body
-    }
-}
 
 export const store: StoreType = {
     _state: {
@@ -119,20 +100,12 @@ export const store: StoreType = {
         return this._state
     },
     dispatch(action: ActionsType) {
-        if (action.type === PROFILE_ADD_POST) {
-            let newPost = {
-                message: action.message, id: v1(), like: 0, dislike: 0, img: ava
-            }
-            this._state.profilePage.postData.push(newPost)
-            this._callSubscriber(this._state)
-        }
-        if (action.type === DIALOGS_ADD_MESSAGE) {
-            let newMessage = {
-                body: action.body, id: v1(), img: ava
-            }
-            this._state.dialogsPage.messages.push(newMessage)
-            this._callSubscriber(this._state)
-        }
+        this._state.profilePage = profileReducer( this._state.profilePage, action)
+        this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action)
+        this._state.sidebarPage = sidebarReducer(this._state.sidebarPage, action)
+
+        this._callSubscriber(this._state)
+
     },
 
     subscribe(observer: (state: StateType) => void) {
