@@ -1,7 +1,8 @@
 import React, {KeyboardEvent, useState} from "react"
-import {ActionsType, addPostAC, PostType} from "../../../redux/store"
+import {ActionsType, PostType} from "../../../redux/store"
 import styles from "../Profile.module.css"
 import {Post} from "./Post/Post"
+import {addPostAC} from "../../../redux/profileReducer"
 
 type PostsPropsType = {
     postData: PostType[]

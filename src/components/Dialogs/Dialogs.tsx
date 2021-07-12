@@ -2,8 +2,9 @@ import React, {useState} from "react"
 import style from "./dialogs.module.css"
 import {FriendMessage} from "./Messages/FriendMessage"
 import {MyMessage} from "./Messages/MyMessage"
-import {ActionsType, addMessageAC, DialogItemsType, MessagesType} from "../../redux/store"
+import {ActionsType,  DialogItemsType, MessagesType} from "../../redux/store"
 import {DialogItems} from "./DialogItems/DialogItems"
+import {addMessageAC} from "../../redux/dialogsReducer"
 
 type DialogsPropsType = {
     dialogData: DialogItemsType[]
