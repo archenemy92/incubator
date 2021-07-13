@@ -1,30 +1,37 @@
 import React, {ChangeEvent, useState} from "react"
 import {Posts} from "./Posts"
-import {ActionsType, PostType} from "../../../redux/store"
 import {addPostAC} from "../../../redux/profileReducer"
+import {Context} from "../../../Context"
 
 type PostsContainerPropsType = {
-    postData: PostType[]
-    dispatch: (action: ActionsType) => void
 }
 
-export const PostsContainer: React.FC<PostsContainerPropsType> = (props) => {
+export const PostsContainer: React.FC<PostsContainerPropsType> = () => {
     const [postText, setPostText] = useState("")
 
-    const addPost = (postText: string) => {
-        props.dispatch(addPostAC(postText))
-        setPostText("")
-    }
-
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setPostText(e.currentTarget.value)
-    }
-
     return (
-        <Posts postData={props.postData}
-               addPost={addPost}
-               postText={postText}
-               onChangeText={onChangeHandler}
-        />
+        <Context.Consumer>
+            {
+                (store) => {
+                    let state = store.getState()
+
+                    const addPost = (postText: string) => {
+                        store.dispatch(addPostAC(postText))
+                        setPostText("")
+                    }
+
+                    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+                        setPostText(e.currentTarget.value)
+                    }
+                    return (
+                        <Posts postData={state.profilePage.postData}
+                               addPost={addPost}
+                               postText={postText}
+                               onChangeText={onChangeHandler}
+                        />
+                    )
+                }
+            }
+        </Context.Consumer>
     )
 }

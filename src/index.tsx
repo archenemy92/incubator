@@ -4,22 +4,26 @@ import "./index.css"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import {BrowserRouter} from "react-router-dom"
-import {store, StoreType} from "./redux/store"
+import {store} from "./redux/store"
+import {Provider} from "./Context"
 
- const rerenderTree = (state:StoreType): void => {
+const rerenderTree = (): void => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state} dispatch={store.dispatch.bind(store)}/>
+            <Provider>
+                <App/>
+            </Provider>
         </BrowserRouter>,
         document.getElementById("root")
     )
 }
-rerenderTree(store.getState())
+rerenderTree()
 
-store.subscribe(() =>{
-    let state: StoreType = store.getState()
-    rerenderTree(state)}
+store.subscribe(() => {
+        rerenderTree()
+    }
 )
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

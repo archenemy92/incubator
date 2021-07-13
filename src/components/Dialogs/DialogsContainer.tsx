@@ -1,33 +1,39 @@
 import React, {ChangeEvent, useState} from "react"
-import {ActionsType, DialogItemsType, MessagesType} from "../../redux/store"
 import {addMessageAC} from "../../redux/dialogsReducer"
 import {Dialogs} from "./Dialogs"
+import {Context} from "../../Context"
 
 type DialogsContainerPropsType = {
-    dialogData: DialogItemsType[]
-    messages: MessagesType[]
-    dispatch: (action: ActionsType) => void
 }
 
-export const DialogsContainer: React.FC<DialogsContainerPropsType> = (props) => {
+export const DialogsContainer: React.FC<DialogsContainerPropsType> = () => {
     const [messageBody, setMessageBody] = useState("")
 
-
-    const addMessage = (messageText: string) => {
-        props.dispatch(addMessageAC(messageText))
-        setMessageBody("")
-    }
-
-    const onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setMessageBody(e.currentTarget.value)
-    }
-
     return (
-        <Dialogs dialogData={props.dialogData}
-                 messages={props.messages}
-                 addMessage={addMessage}
-                 messageText={messageBody}
-                 onChangeMessage={onChangeMessage}
-        />
+        <Context.Consumer>
+            {
+                (store) => {
+                    let state = store.getState()
+
+                    const onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+                        setMessageBody(e.currentTarget.value)
+                    }
+
+                    const addMessage = (messageText: string) => {
+                        store.dispatch(addMessageAC(messageText))
+                        setMessageBody("")
+                    }
+                    return (
+                        <Dialogs dialogData={state.dialogsPage.dialogData}
+                                 messages={state.dialogsPage.messages}
+                                 addMessage={addMessage}
+                                 messageText={messageBody}
+                                 onChangeMessage={onChangeMessage}
+                        />
+                    )
+                }
+            }
+        </Context.Consumer>
+
     )
 }
