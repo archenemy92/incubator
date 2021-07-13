@@ -1,12 +1,9 @@
-
 import {AddPostType, profileReducer} from "./profileReducer"
 import {AddMessageType, dialogReducer} from "./dialogsReducer"
 import {sidebarReducer} from "./sidebarReducer"
 import {combineReducers, createStore } from "redux"
 
-
 export let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
-
 
 export type PostType = {
     message: string
@@ -46,14 +43,6 @@ export type DialogDataType = {
 export type SidebarDataType = {
     sidebarData: sidebarItemsType[]
 }
-
-export type StateType = {
-    profilePage: PostDataType
-    dialogsPage: DialogDataType
-    sidebarPage: SidebarDataType
-}
-
-
 
 export type ActionsType = AddPostType| AddMessageType
 
