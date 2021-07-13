@@ -3,16 +3,16 @@ import "./App.css"
 import {Header} from "./components/Header/Header"
 import {Navbar} from "./components/Navbar/Navbar"
 import {Profile} from "./components/Profile/Profile"
-import {Dialogs} from "./components/Dialogs/Dialogs"
 import {Users} from "./components/Users/Users"
 import {Friends} from "./components/Friends/Friends"
 import {Music} from "./components/Music/Music"
 import {Settings} from "./components/Settings/Settings"
 import {Route} from "react-router-dom"
-import {ActionsType, StateType} from "./redux/store"
+import {ActionsType, StoreType} from "./redux/store"
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer"
 
 export type AppPropsType = {
-    state: StateType
+    state: StoreType
     dispatch: (action: ActionsType) => void
 }
 
@@ -27,10 +27,11 @@ const App: React.FC<AppPropsType> = (props) => {
                     dispatch={props.dispatch}
 
                 />}/>
-                <Route path={"/dialogs"} render={() => <Dialogs
+                <Route path={"/dialogs"} render={() => <DialogsContainer
                     dialogData={props.state.dialogsPage.dialogData}
                     messages={props.state.dialogsPage.messages}
-                    dispatch={props.dispatch}/>}/>
+                    dispatch={props.dispatch}
+                />}/>
                 <Route path={"/users"} render={() => <Users/>}/>
                 <Route path={"/friends"} render={() => <Friends/>}/>
                 <Route path={"/music"} render={() => <Music/>}/>
