@@ -47,7 +47,8 @@ export type SidebarDataType = {
 export type ActionsType = AddPostType| AddMessageType
 
 type RootReducerType = typeof rootReducer
-export type StoreType = ReturnType<RootReducerType>
+export type StateType = ReturnType<RootReducerType>
+export type StoreType = typeof store
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,
@@ -56,3 +57,5 @@ let rootReducer = combineReducers({
 })
 
 export let store = createStore(rootReducer)
+
+
