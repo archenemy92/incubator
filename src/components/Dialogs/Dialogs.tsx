@@ -1,24 +1,26 @@
-import React, {useState} from "react"
+import React, {ChangeEvent} from "react"
 import style from "./dialogs.module.css"
 import {FriendMessage} from "./Messages/FriendMessage"
 import {MyMessage} from "./Messages/MyMessage"
-import {ActionsType,  DialogItemsType, MessagesType} from "../../redux/store"
+import {DialogItemsType, MessagesType} from "../../redux/store"
 import {DialogItems} from "./DialogItems/DialogItems"
-import {addMessageAC} from "../../redux/dialogsReducer"
 
 type DialogsPropsType = {
+    messageText: string
     dialogData: DialogItemsType[]
     messages: MessagesType[]
-    dispatch: (action: ActionsType) => void
+    addMessage: (messageText: string) => void
+    onChangeMessage: (e: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
-    const [messageBody, setMessageBody] = useState("")
 
 
     const addMessage = () => {
-        props.dispatch(addMessageAC(messageBody))
-        setMessageBody("")
+        props.addMessage(props.messageText)
+    }
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.onChangeMessage(e)
     }
 
     const dialogsElem = props.dialogData.map(d => <DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
@@ -41,8 +43,8 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
             <div className={style.dialogs_actions}>
                 <div className={style.dialogs_actions_textarea}>
                     <textarea className={style.dialogs_textarea}
-                              value={messageBody}
-                              onChange={(e) => setMessageBody(e.currentTarget.value)}/>
+                              value={props.messageText}
+                              onChange={onChangeHandler}/>
                 </div>
                 <div className={style.dialogs_actions_button}>
                     <button onClick={addMessage}>SEND</button>
