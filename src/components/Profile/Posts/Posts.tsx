@@ -1,33 +1,35 @@
-import React, {KeyboardEvent, useState} from "react"
-import {ActionsType, PostType} from "../../../redux/store"
+import React, {ChangeEvent, KeyboardEvent} from "react"
+import {PostType} from "../../../redux/store"
 import styles from "../Profile.module.css"
 import {Post} from "./Post/Post"
-import {addPostAC} from "../../../redux/profileReducer"
 
 type PostsPropsType = {
     postData: PostType[]
-    dispatch: (action: ActionsType) => void
+    addPost: (postText: string) => void
+    postText: string
+    onChangeText: (e: ChangeEvent<HTMLTextAreaElement>) => void
 }
 export const Posts: React.FC<PostsPropsType> = (props) => {
-    const [postText, setPostText] = useState("")
-
 
     let addPost = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.shiftKey && e.key === "Enter") {
-            props.dispatch(addPostAC(postText))
-            setPostText("")
+            props.addPost(props.postText)
         }
-
     }
 
-    let post = props.postData.map(p => <Post key={p.id} message={p.message} like={p.like} dislike={p.dislike}
-                                             ava={p.img}/>)
+    let post = props.postData.map(p => <Post
+        key={p.id}
+        message={p.message}
+        like={p.like}
+        dislike={p.dislike}
+        ava={p.img}
+    />)
 
     return (
         <div className={styles.post}>
             <textarea className={styles.textarea}
-                      value={postText}
-                      onChange={(e)=>setPostText(e.currentTarget.value)}
+                      value={props.postText}
+                      onChange={(e) => props.onChangeText(e)}
                       onKeyPress={addPost}/>
             <div>
                 {post}
