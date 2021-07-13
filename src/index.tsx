@@ -4,23 +4,23 @@ import "./index.css"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import {BrowserRouter} from "react-router-dom"
-import {store} from "./redux/store"
+import {store, StoreType} from "./redux/store"
 import {Provider} from "./Context"
 
-const rerenderTree = (): void => {
+const rerenderTree = (store: StoreType): void => {
     ReactDOM.render(
         <BrowserRouter>
-            <Provider>
+            <Provider store={store}>
                 <App/>
             </Provider>
         </BrowserRouter>,
         document.getElementById("root")
     )
 }
-rerenderTree()
+rerenderTree(store)
 
 store.subscribe(() => {
-        rerenderTree()
+        rerenderTree(store)
     }
 )
 
