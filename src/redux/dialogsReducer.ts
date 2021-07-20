@@ -35,8 +35,10 @@ export const dialogReducer = (state = initState, action: ActionsType): DialogDat
             let newMessage = {
                 body: action.body, id: v1(), img: ava
             }
-            state.messages.push(newMessage)
-            return state
+            return {
+                ...state,
+                messages: [...state.messages, newMessage]
+            }
         default:
             return state
     }

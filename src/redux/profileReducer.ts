@@ -31,8 +31,10 @@ export const profileReducer = (state = initState, action: ActionsType): PostData
             let newPost = {
                 message: action.message, id: v1(), like: 0, dislike: 0, img: ava
             }
-            state.postData.push(newPost)
-            return state
+            return  {
+                ...state,
+                postData: [...state.postData, newPost]
+            }
         default:
             return state
     }
