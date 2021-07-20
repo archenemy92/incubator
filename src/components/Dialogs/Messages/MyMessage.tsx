@@ -19,7 +19,7 @@ export const MyMessage:React.FC<MyMessageType> = (props) => {
                     {props.text}
                 </div>
                 <div className={style.myMessage_infoAct}>
-                    <div >{new Date().toLocaleString()}</div>
+                    <div >{new Date().toLocaleTimeString()}</div>
                     <div>
                         <button>del</button>
                     </div>
