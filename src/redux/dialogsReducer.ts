@@ -1,5 +1,5 @@
 import {v1} from "uuid"
-import {ActionsType, DialogDataType} from "./store"
+import {ActionsType, DialogDataType, MessagesType} from "./store"
 
 export type AddMessageType = {
     type: typeof DIALOGS_ADD_MESSAGE
@@ -32,7 +32,7 @@ const initState: DialogDataType = {
 export const dialogReducer = (state = initState, action: ActionsType): DialogDataType => {
     switch (action.type) {
         case DIALOGS_ADD_MESSAGE:
-            let newMessage = {
+            let newMessage: MessagesType = {
                 body: action.body, id: v1(), img: ava
             }
             return {
