@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react"
+import React, {ChangeEvent, useState} from "react"
 import style from "./dialogs.module.css"
 import {FriendMessage} from "./Messages/FriendMessage"
 import {MyMessage} from "./Messages/MyMessage"
@@ -6,21 +6,20 @@ import {DialogItemsType, MessagesType} from "../../redux/store"
 import {DialogItems} from "./DialogItems/DialogItems"
 
 type DialogsPropsType = {
-    messageText: string
     dialogData: DialogItemsType[]
     messages: MessagesType[]
     addMessage: (messageText: string) => void
-    onChangeMessage: (e: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
-
+    const [messageBody, setMessageBody] = useState("")
 
     const addMessage = () => {
-        props.addMessage(props.messageText)
+        props.addMessage(messageBody)
+        setMessageBody("")
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.onChangeMessage(e)
+        setMessageBody(e.currentTarget.value)
     }
 
     const dialogsElem = props.dialogData.map(d => <DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
@@ -43,7 +42,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
             <div className={style.dialogs_actions}>
                 <div className={style.dialogs_actions_textarea}>
                     <textarea className={style.dialogs_textarea}
-                              value={props.messageText}
+                              value={messageBody}
                               onChange={onChangeHandler}/>
                 </div>
                 <div className={style.dialogs_actions_button}>
