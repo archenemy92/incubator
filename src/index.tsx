@@ -4,24 +4,17 @@ import "./index.css"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import {BrowserRouter} from "react-router-dom"
-import {store, StoreType} from "./redux/store"
-import {Provider} from "./Context"
+import {store} from "./redux/store"
+import {Provider} from "react-redux"
 
-const rerenderTree = (store: StoreType): void => {
-    ReactDOM.render(
-        <BrowserRouter>
-            <Provider store={store}>
-                <App/>
-            </Provider>
-        </BrowserRouter>,
-        document.getElementById("root")
-    )
-}
-rerenderTree(store)
 
-store.subscribe(() => {
-        rerenderTree(store)
-    }
+ReactDOM.render(
+    <BrowserRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </BrowserRouter>,
+    document.getElementById("root")
 )
 
 // If you want to start measuring performance in your app, pass a function
