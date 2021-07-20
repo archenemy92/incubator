@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent} from "react"
+import React, {ChangeEvent, KeyboardEvent, useState} from "react"
 import {PostType} from "../../../redux/store"
 import styles from "../Profile.module.css"
 import {Post} from "./Post/Post"
@@ -6,15 +6,23 @@ import {Post} from "./Post/Post"
 type PostsPropsType = {
     postData: PostType[]
     addPost: (postText: string) => void
-    postText: string
-    onChangeText: (e: ChangeEvent<HTMLTextAreaElement>) => void
 }
+
+
 export const Posts: React.FC<PostsPropsType> = (props) => {
+
+     const [postText, setPostText] = useState("")
 
     let addPost = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.shiftKey && e.key === "Enter") {
-            props.addPost(props.postText)
+            props.addPost(postText)
+              setPostText("")
         }
+    }
+
+    let onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+         setPostText(e.currentTarget.value)
+
     }
 
     let post = props.postData.map(p => <Post
@@ -28,8 +36,8 @@ export const Posts: React.FC<PostsPropsType> = (props) => {
     return (
         <div className={styles.post}>
             <textarea className={styles.textarea}
-                      value={props.postText}
-                      onChange={(e) => props.onChangeText(e)}
+                      value={postText}
+                      onChange={onChangeHandler}
                       onKeyPress={addPost}/>
             <div>
                 {post}
