@@ -1,0 +1,41 @@
+.user_container {
+    display: grid;
+    grid-template-areas:
+            "c"
+            ;
+    margin: 5px;
+    width: min-content;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.user_content {
+    grid-area: c;
+    margin: 10px;
+    font-weight: bold;
+    display: grid;
+    grid-template-areas:
+            "a d"
+            "n n";
+
+}
+
+.user_name {
+    grid-area: n;
+}
+
+.user_ava img {
+    width: 60px;
+    border-radius: 50%;
+    grid-area: a;
+}
+
+
+.user_button {
+    margin: auto auto 5px auto;
+}
+
+.user_descriptions {
+    grid-area: d;
+    margin: 0 0 0 10px;
+}
