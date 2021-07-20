@@ -1,21 +1,23 @@
-import React from "react"
+import {Dispatch} from "react"
 import {Navbar} from "./Navbar"
-import {Context} from "../../Context"
+import {connect} from "react-redux"
+import {ActionsType, SidebarDataType, StateType} from "../../redux/store"
 
-type NavbarContainerPropsType = {}
 
-export const NavbarContainer: React.FC<NavbarContainerPropsType> = () => {
-        return (
-            <Context.Consumer>
-                {
-                    (store) => {
-                        let state = store.getState()
-                        return (
-                            <Navbar item={state.sidebarPage}/>
-                        )
-                    }
-                }
-            </Context.Consumer>
+type MSTPType = {
+    item: SidebarDataType
+}
+type  MDTPType = {}
 
-        )
+const mapStateToProps = (state: StateType): MSTPType => {
+    return {
+        item: state.sidebarPage
     }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<ActionsType>): MDTPType => {
+    return {}
+}
+
+export const NavbarContainer =
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, mapDispatchToProps)(Navbar)

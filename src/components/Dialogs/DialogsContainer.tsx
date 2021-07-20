@@ -1,39 +1,32 @@
-import React, {ChangeEvent, useState} from "react"
+import {Dispatch} from "react"
 import {addMessageAC} from "../../redux/dialogsReducer"
 import {Dialogs} from "./Dialogs"
-import {Context} from "../../Context"
+import {connect} from "react-redux"
+import {ActionsType, DialogItemsType, MessagesType, StateType} from "../../redux/store"
 
-type DialogsContainerPropsType = {
+type MSTPType = {
+    dialogData: DialogItemsType[]
+    messages: MessagesType[]
 }
 
-export const DialogsContainer: React.FC<DialogsContainerPropsType> = () => {
-    const [messageBody, setMessageBody] = useState("")
-
-    return (
-        <Context.Consumer>
-            {
-                (store) => {
-                    let state = store.getState()
-
-                    const onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-                        setMessageBody(e.currentTarget.value)
-                    }
-
-                    const addMessage = (messageText: string) => {
-                        store.dispatch(addMessageAC(messageText))
-                        setMessageBody("")
-                    }
-                    return (
-                        <Dialogs dialogData={state.dialogsPage.dialogData}
-                                 messages={state.dialogsPage.messages}
-                                 addMessage={addMessage}
-                                 messageText={messageBody}
-                                 onChangeMessage={onChangeMessage}
-                        />
-                    )
-                }
-            }
-        </Context.Consumer>
-
-    )
+type MDTPType = {
+    addMessage: (messageText: string) => void
 }
+
+const mapStateToProps = (state: StateType): MSTPType => {
+    return {
+        dialogData: state.dialogsPage.dialogData,
+        messages: state.dialogsPage.messages
+    }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<ActionsType>): MDTPType => {
+    return {
+        addMessage: (messageText: string) => {
+            dispatch(addMessageAC(messageText))
+        }
+    }
+}
+
+export const DialogsContainer =
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, mapDispatchToProps)(Dialogs)

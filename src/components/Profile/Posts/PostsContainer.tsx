@@ -1,37 +1,30 @@
-import React, {ChangeEvent, useState} from "react"
+import {Dispatch} from "react"
 import {Posts} from "./Posts"
 import {addPostAC} from "../../../redux/profileReducer"
-import {Context} from "../../../Context"
+import {connect} from "react-redux"
+import {ActionsType, PostType, StateType} from "../../../redux/store"
 
-type PostsContainerPropsType = {
+type MSTPType = {
+    postData: PostType[]
 }
 
-export const PostsContainer: React.FC<PostsContainerPropsType> = () => {
-    const [postText, setPostText] = useState("")
-
-    return (
-        <Context.Consumer>
-            {
-                (store) => {
-                    let state = store.getState()
-
-                    const addPost = (postText: string) => {
-                        store.dispatch(addPostAC(postText))
-                        setPostText("")
-                    }
-
-                    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-                        setPostText(e.currentTarget.value)
-                    }
-                    return (
-                        <Posts postData={state.profilePage.postData}
-                               addPost={addPost}
-                               postText={postText}
-                               onChangeText={onChangeHandler}
-                        />
-                    )
-                }
-            }
-        </Context.Consumer>
-    )
+type MDTPType = {
+    addPost: (postText: string) => void
 }
+
+const mapStateToProps = (state: StateType): MSTPType => {
+    return {
+        postData: state.profilePage.postData
+    }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<ActionsType>): MDTPType => {
+    return {
+        addPost: (postText: string) => {
+            dispatch(addPostAC(postText))
+        }
+    }
+}
+
+export const PostsContainer =
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, mapDispatchToProps)(Posts)
