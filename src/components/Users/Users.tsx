@@ -12,49 +12,54 @@ type UsersPropsType = {
     setUsers: (users: UsersType[]) => void
 }
 
-export const Users: React.FC<UsersPropsType> = (props) => {
+export class Users extends React.Component<UsersPropsType, any> {
 
-    const getUsers = () => {
-        if (props.users.length === 0) {
-            axios.get<{items: UsersType[]}>("https://social-network.samuraijs.com/api/1.0/users")
-                .then((response)=>props.setUsers(response.data.items))
+    constructor(props: UsersPropsType) {
+        super(props)
+
+        if (this.props.users.length === 0) {
+            axios.get<{ items: UsersType[] }>("https://social-network.samuraijs.com/api/1.0/users")
+                .then((response) => this.props.setUsers(response.data.items))
         }
     }
 
-    return (
-        <>
-            <button onClick={getUsers}>getUsers</button>
-            {props.users.map(user => {
+    render() {
+        return (
+            <>
 
-                const unfollow = () => {
-                    props.unfollow(user.id)
-                }
-                const follow = () => {
-                    props.follow(user.id)
-                }
+                {this.props.users.map(user => {
 
-                return <div key={user.id} className={classes.user_container}>
-
-                    <div className={classes.user_content}>
-                        <div className={classes.user_ava}>
-                            <img src={user.photos.small ? user.photos.small : ava} alt={"avatar must be here"}/>
-                        </div>
-                        <div className={classes.user_name}>
-                            {user.name}
-                        </div>
-                        <div className={classes.user_descriptions}>
-                            descr
-                        </div>
-                    </div>
-                    {
-                        user.followed
-                            ? <button onClick={unfollow}>follow</button>
-                            : <button onClick={follow}>unfollow</button>
+                    const unfollow = () => {
+                        this.props.unfollow(user.id)
                     }
-                </div>
-            })
-            }
-        </>
-    )
+                    const follow = () => {
+                        this.props.follow(user.id)
+                    }
+
+                    return <div key={user.id} className={classes.user_container}>
+
+                        <div className={classes.user_content}>
+                            <div className={classes.user_ava}>
+                                <img src={user.photos.small ? user.photos.small : ava} alt={"avatar must be here"}/>
+                            </div>
+                            <div className={classes.user_name}>
+                                {user.name}
+                            </div>
+                            <div className={classes.user_descriptions}>
+                                descr
+                            </div>
+                        </div>
+                        {
+                            user.followed
+                                ? <button onClick={unfollow}>follow</button>
+                                : <button onClick={follow}>unfollow</button>
+                        }
+                    </div>
+                })
+                }
+            </>
+        )
+    }
+
 
 }
