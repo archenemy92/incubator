@@ -14,13 +14,16 @@ type UsersPropsType = {
 
 export const Users: React.FC<UsersPropsType> = (props) => {
 
-if (props.users.length === 0) {
-    axios.get<{items: UsersType[]}>("https://social-network.samuraijs.com/api/1.0/users")
-        .then((response)=>props.setUsers(response.data.items))
-}
+    const getUsers = () => {
+        if (props.users.length === 0) {
+            axios.get<{items: UsersType[]}>("https://social-network.samuraijs.com/api/1.0/users")
+                .then((response)=>props.setUsers(response.data.items))
+        }
+    }
 
     return (
         <>
+            <button onClick={getUsers}>getUsers</button>
             {props.users.map(user => {
 
                 const unfollow = () => {
@@ -31,6 +34,7 @@ if (props.users.length === 0) {
                 }
 
                 return <div key={user.id} className={classes.user_container}>
+
                     <div className={classes.user_content}>
                         <div className={classes.user_ava}>
                             <img src={user.photos.small ? user.photos.small : ava} alt={"avatar must be here"}/>
