@@ -1,6 +1,6 @@
 import {connect} from "react-redux"
 import {Users} from "./Users"
-import {ActionsType, StateType} from "../../redux/store"
+import {StateType} from "../../redux/store"
 import {
     follow,
     setCurrentPage,
@@ -10,7 +10,7 @@ import {
     unfollow,
     UsersType
 } from "../../redux/usersReducer"
-import React, {Dispatch} from "react"
+import React from "react"
 import axios from "axios"
 
 type UsersCPropsType = {
@@ -98,27 +98,9 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ActionsType>): MDTPType => {
-    return {
-        follow: (userID) => {
-            dispatch(follow(userID))
-        },
-        unfollow: (userID) => {
-            dispatch(unfollow(userID))
-        },
-        setUsers: (users) => {
-            dispatch(setUsers(users))
-        },
-        setCurrentPage: (currentPage) => {
-            dispatch(setCurrentPage(currentPage))
-        },
-        setTotalCount: (count) => {
-            dispatch(setTotalCount(count))
-        },
-        setIsFetching: (isFetch) => {
-            dispatch(setIsFetching(isFetch))
-        }
-    }
-}
-
-export const UsersContainer = connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, mapDispatchToProps)(UsersC)
+export const UsersContainer =
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
+    setUsers, setIsFetching,
+    setTotalCount, setCurrentPage,
+    unfollow, follow
+})(UsersC)

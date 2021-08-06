@@ -1,8 +1,7 @@
-import {Dispatch} from "react"
-import {addMessageAC} from "../../redux/dialogsReducer"
+import {addMessage} from "../../redux/dialogsReducer"
 import {Dialogs} from "./Dialogs"
 import {connect} from "react-redux"
-import {ActionsType, DialogItemsType, MessagesType, StateType} from "../../redux/store"
+import {DialogItemsType, MessagesType, StateType} from "../../redux/store"
 
 type MSTPType = {
     dialogData: DialogItemsType[]
@@ -20,13 +19,5 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ActionsType>): MDTPType => {
-    return {
-        addMessage: (messageText: string) => {
-            dispatch(addMessageAC(messageText))
-        }
-    }
-}
-
 export const DialogsContainer =
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, mapDispatchToProps)(Dialogs)
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {addMessage})(Dialogs)

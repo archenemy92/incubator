@@ -1,7 +1,6 @@
-import {Dispatch} from "react"
 import {Navbar} from "./Navbar"
 import {connect} from "react-redux"
-import {ActionsType, SidebarDataType, StateType} from "../../redux/store"
+import {SidebarDataType, StateType} from "../../redux/store"
 
 
 type MSTPType = {
@@ -15,9 +14,5 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ActionsType>): MDTPType => {
-    return {}
-}
-
 export const NavbarContainer =
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, mapDispatchToProps)(Navbar)
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {})(Navbar)

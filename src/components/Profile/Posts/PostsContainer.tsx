@@ -1,8 +1,7 @@
-import {Dispatch} from "react"
 import {Posts} from "./Posts"
-import {addPostAC} from "../../../redux/profileReducer"
+import {addPost} from "../../../redux/profileReducer"
 import {connect} from "react-redux"
-import {ActionsType, PostType, StateType} from "../../../redux/store"
+import {PostType, StateType} from "../../../redux/store"
 
 type MSTPType = {
     postData: PostType[]
@@ -18,13 +17,5 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ActionsType>): MDTPType => {
-    return {
-        addPost: (postText: string) => {
-            dispatch(addPostAC(postText))
-        }
-    }
-}
-
 export const PostsContainer =
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, mapDispatchToProps)(Posts)
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {addPost})(Posts)
