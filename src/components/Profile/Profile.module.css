@@ -9,6 +9,9 @@
 }
 .desc {
     float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .textarea {
