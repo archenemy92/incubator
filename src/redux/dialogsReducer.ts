@@ -37,7 +37,7 @@ export const dialogReducer = (state = initState, action: ActionsType): DialogDat
             }
             return {
                 ...state,
-                messages: [...state.messages, newMessage]
+                messages: [newMessage, ...state.messages]
             }
         default:
             return state
