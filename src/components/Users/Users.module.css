@@ -3,8 +3,8 @@
     grid-template-areas:
             "c"
             ;
-    margin: 5px;
-    width: min-content;
+    margin: 10px 5px 5px 5px;
+    width: 200px;
     background-color: white;
     border-radius: 5px;
 }
@@ -38,4 +38,19 @@
 .user_descriptions {
     grid-area: d;
     margin: 0 0 0 10px;
+}
+
+.pagination {
+    margin: 0 5px 0 0 ;
+}
+.pagination:hover {
+    background-color: greenyellow;
+    margin: 0 5px 0 0 ;
+}
+.paginationSelected {
+    border-bottom: 1px solid;
+    padding: 3px;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 5px 0 0 ;
 }
