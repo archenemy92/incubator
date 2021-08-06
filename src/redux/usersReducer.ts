@@ -1,12 +1,11 @@
 import {ActionsType} from "./store"
 
-
 const FOLLOW_USERS_PAGE = "FOLLOW_USERS_PAGE"
 const UNFOLLOW_USERS_PAGE = "UNFOLLOW_USERS_PAGE"
 const SET_USERS_USERS_PAGE = "SET_USERS_USERS_PAGE"
 const SET_TOTAL_COUNT_USERS_PAGE = "SET_TOTAL_COUNT_USERS_PAGE"
 const SET_CURRENT_PAGE_USERS_PAGE = "SET_CURRENT_PAGE_USERS_PAGE"
-//const SET_USERS_USERS_PAGE = "SET_USERS_USERS_PAGE"
+const SET_IS_FETCHING_USERS_PAGE = "SET_IS_FETCHING_USERS_PAGE"
 
 export type UsersType = {
     name: string
@@ -24,13 +23,15 @@ export type UsersDataType = {
     totalCount: number
     currentPage: number
     pageSize: number
+    isFetch: boolean
 }
 
 const initState: UsersDataType = {
     users: [],
     currentPage: 1,
     totalCount: 0,
-    pageSize: 5
+    pageSize: 5,
+    isFetch: false
 }
 
 export const usersReducer = (state = initState, action: ActionsType): UsersDataType => {
@@ -74,7 +75,12 @@ export const usersReducer = (state = initState, action: ActionsType): UsersDataT
         case SET_CURRENT_PAGE_USERS_PAGE:
             return {
                 ...state,
-               currentPage: action.currentPage
+                currentPage: action.currentPage
+            }
+        case SET_IS_FETCHING_USERS_PAGE:
+            return {
+                ...state,
+                isFetch: action.isFetching
             }
         default:
             return state
@@ -100,6 +106,10 @@ export type SetCurrentPageType = {
 export type SetTotalCountType = {
     type: typeof SET_TOTAL_COUNT_USERS_PAGE
     count: number
+}
+export type SetIsFetchingType = {
+    type: typeof SET_IS_FETCHING_USERS_PAGE
+    isFetching: boolean
 }
 
 export const follow = (userID: string): FollowType => {
@@ -130,5 +140,11 @@ export const setTotalCount = (count: number): SetTotalCountType => {
     return {
         type: SET_TOTAL_COUNT_USERS_PAGE,
         count
+    }
+}
+export const setIsFetching = (isFetching: boolean): SetIsFetchingType => {
+    return {
+        type: SET_IS_FETCHING_USERS_PAGE,
+        isFetching
     }
 }
