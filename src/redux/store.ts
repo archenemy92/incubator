@@ -4,7 +4,7 @@ import {sidebarReducer} from "./sidebarReducer"
 import {combineReducers, createStore} from "redux"
 import {
     FollowType,
-    SetCurrentPageType,
+    SetCurrentPageType, SetIsFetchingType,
     SetTotalCountType,
     SetUsersType,
     UnfollowType,
@@ -53,7 +53,7 @@ export type SidebarDataType = {
 }
 
 export type ActionsType = AddPostType | AddMessageType | FollowType |
-    UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType
+    UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType | SetIsFetchingType
 
 type RootReducerType = typeof rootReducer
 export type StateType = ReturnType<RootReducerType>
