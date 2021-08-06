@@ -2,6 +2,7 @@ import React from "react"
 import {UsersType} from "../../redux/usersReducer"
 import classes from "./Users.module.css"
 import {Preloader} from "../Common/Preloader/Preloader"
+import { NavLink } from "react-router-dom"
 
 let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
@@ -52,7 +53,10 @@ export const Users: React.FC<UsersPropsType> = (props) => {
 
                 <div className={classes.user_content}>
                     <div className={classes.user_ava}>
-                        <img src={user.photos.small ? user.photos.small : ava} alt={"avatar must be here"}/>
+                        <NavLink to={"/profile/" + user.id}>
+                            <img src={user.photos.small ? user.photos.small : ava} alt={"avatar must be here"}/>
+                        </NavLink>
+
                     </div>
                     <div className={classes.user_name}>
                         {user.name}
