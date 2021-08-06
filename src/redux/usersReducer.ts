@@ -1,10 +1,12 @@
 import {ActionsType} from "./store"
 
 
-
 const FOLLOW_USERS_PAGE = "FOLLOW_USERS_PAGE"
 const UNFOLLOW_USERS_PAGE = "UNFOLLOW_USERS_PAGE"
 const SET_USERS_USERS_PAGE = "SET_USERS_USERS_PAGE"
+const SET_TOTAL_COUNT_USERS_PAGE = "SET_TOTAL_COUNT_USERS_PAGE"
+const SET_CURRENT_PAGE_USERS_PAGE = "SET_CURRENT_PAGE_USERS_PAGE"
+//const SET_USERS_USERS_PAGE = "SET_USERS_USERS_PAGE"
 
 export type UsersType = {
     name: string
@@ -19,10 +21,16 @@ export type UsersType = {
 
 export type UsersDataType = {
     users: UsersType[]
+    totalCount: number
+    currentPage: number
+    pageSize: number
 }
 
 const initState: UsersDataType = {
-    users: []
+    users: [],
+    currentPage: 1,
+    totalCount: 0,
+    pageSize: 5
 }
 
 export const usersReducer = (state = initState, action: ActionsType): UsersDataType => {
@@ -43,7 +51,7 @@ export const usersReducer = (state = initState, action: ActionsType): UsersDataT
         case UNFOLLOW_USERS_PAGE:
             return {
                 ...state,
-                users: state.users.map(u=> {
+                users: state.users.map(u => {
                     if (u.id === action.userID) {
                         return {
                             ...u,
@@ -56,7 +64,17 @@ export const usersReducer = (state = initState, action: ActionsType): UsersDataT
         case SET_USERS_USERS_PAGE:
             return {
                 ...state,
-                users: [...state.users, ...action.users]
+                users: [...action.users]
+            }
+        case SET_TOTAL_COUNT_USERS_PAGE:
+            return {
+                ...state,
+                totalCount: action.count
+            }
+        case SET_CURRENT_PAGE_USERS_PAGE:
+            return {
+                ...state,
+               currentPage: action.currentPage
             }
         default:
             return state
@@ -75,6 +93,14 @@ export type SetUsersType = {
     type: typeof SET_USERS_USERS_PAGE
     users: UsersType[]
 }
+export type SetCurrentPageType = {
+    type: typeof SET_CURRENT_PAGE_USERS_PAGE
+    currentPage: number
+}
+export type SetTotalCountType = {
+    type: typeof SET_TOTAL_COUNT_USERS_PAGE
+    count: number
+}
 
 export const follow = (userID: string): FollowType => {
     return {
@@ -92,5 +118,17 @@ export const setUsers = (users: UsersType[]): SetUsersType => {
     return {
         type: SET_USERS_USERS_PAGE,
         users
+    }
+}
+export const setCurrentPage = (currentPage: number): SetCurrentPageType => {
+    return {
+        type: SET_CURRENT_PAGE_USERS_PAGE,
+        currentPage
+    }
+}
+export const setTotalCount = (count: number): SetTotalCountType => {
+    return {
+        type: SET_TOTAL_COUNT_USERS_PAGE,
+        count
     }
 }
