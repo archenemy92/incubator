@@ -33,7 +33,7 @@ export const profileReducer = (state = initState, action: ActionsType): PostData
             }
             return  {
                 ...state,
-                postData: [...state.postData, newPost]
+                postData: [ newPost, ...state.postData]
             }
         default:
             return state
