@@ -1,4 +1,4 @@
-import {AddPostType, profileReducer} from "./profileReducer"
+import {AddPostType, profileReducer, SetProfileType} from "./profileReducer"
 import {AddMessageType, dialogReducer} from "./dialogsReducer"
 import {sidebarReducer} from "./sidebarReducer"
 import {combineReducers, createStore} from "redux"
@@ -34,8 +34,32 @@ export type sidebarItemsType = {
     value: string
 }
 
-export type PostDataType = {
+
+export type ProfileType = {
+    aboutMe: string
+    contacts: {
+        facebook: string | null
+        website: string | null
+        vk: string | null
+        twitter: string | null
+        instagram: string | null
+        youtube: string | null
+        github: string | null
+        mainLink: string | null
+    }
+    lookingForAJob: boolean
+    lookingForAJobDescription: string | null
+    fullName: string | null
+    userId: number
+    photos: {
+        small: string
+        large: string
+    }
+}
+
+export type ProfileDataType = {
     postData: PostType[]
+    profile: ProfileType | null
 }
 export type MessagesType = {
     id: string
@@ -53,7 +77,8 @@ export type SidebarDataType = {
 }
 
 export type ActionsType = AddPostType | AddMessageType | FollowType |
-    UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType | SetIsFetchingType
+    UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType |
+    SetIsFetchingType | SetProfileType
 
 type RootReducerType = typeof rootReducer
 export type StateType = ReturnType<RootReducerType>
@@ -67,5 +92,3 @@ let rootReducer = combineReducers({
 })
 
 export let store = createStore(rootReducer)
-
-
