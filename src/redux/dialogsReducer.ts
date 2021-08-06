@@ -7,7 +7,7 @@ export type AddMessageType = {
 }
 export const DIALOGS_ADD_MESSAGE = "DIALOGS_ADD_MESSAGE"
 
-export const addMessageAC = (body: string): AddMessageType => {
+export const addMessage = (body: string): AddMessageType => {
     return {
         type: DIALOGS_ADD_MESSAGE,
         body

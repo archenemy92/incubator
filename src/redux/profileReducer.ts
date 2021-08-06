@@ -9,7 +9,7 @@ export type AddPostType = {
     message: string
 }
 
-export const addPostAC = (message: string): AddPostType => {
+export const addPost = (message: string): AddPostType => {
     return {
         type: PROFILE_ADD_POST,
         message
