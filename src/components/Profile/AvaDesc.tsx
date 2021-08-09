@@ -11,17 +11,15 @@ type AvaDescType = {
 const ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
 export const AvaDesc:React.FC<AvaDescType> = ({profile}) => {
-    console.log(profile)
     if (!profile) {
         return <Preloader/>
     }
-
     return (
         <div className={styles.avaDesc}>
             <div>
                 <img className={styles.ava}
                      src={profile.photos.large? profile.photos.large : ava}
-                     alt={"profile photo"}/>
+                     alt={"profileImage"}/>
             </div>
             <div className={styles.desc}>
                <span>{profile.aboutMe}</span>
