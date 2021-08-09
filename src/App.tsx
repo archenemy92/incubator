@@ -10,16 +10,13 @@ import {NavbarContainer} from "./components/Navbar/NavbarContainer"
 import {UsersContainer} from "./components/Users/UsersContainer"
 import {ProfileContainer} from "./components/Profile/ProfileContainer"
 
-
-export type AppPropsType = {}
-
-const App: React.FC<AppPropsType> = () => {
+const App: React.FC = () => {
     return (
         <div className={"appWrapper"}>
             <Header/>
             <NavbarContainer/>
             <div className={"appWrapperContent"}>
-                <Route path={"/profile"} render={() => <ProfileContainer/>}/>
+                <Route path={"/profile/:userId?"} render={() => <ProfileContainer/>}/>
                 <Route path={"/dialogs"} render={() => <DialogsContainer/>}/>
                 <Route path={"/users"} render={() => <UsersContainer/>}/>
                 <Route path={"/friends"} render={() => <Friends/>}/>
