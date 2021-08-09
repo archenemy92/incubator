@@ -31,31 +31,27 @@ export class UsersC extends React.Component<UsersCPropsType> {
 
     componentDidMount() {
         this.props.setIsFetching(true)
-        axios.get<{ items: UsersType[], totalCount: number }>(
-            `https://social-network.samuraijs.com/api/1.0/users?
-            page=${this.props.currentPage}&count=${this.props.pageSize}`
-        )
+        axios.get<{ items: UsersType[], totalCount: number, error: null | string }>(
+            `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then((response) => {
-                this.props.setIsFetching(false)
                 this.props.setUsers(response.data.items)
                 this.props.setTotalCount(response.data.totalCount)
+                this.props.setIsFetching(false)
             })
     }
 
     onPageChangeHandler = (currentPage: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(currentPage)
-        axios.get<{ items: UsersType[] }>(
-            `https://social-network.samuraijs.com/api/1.0/users?
-            page=${currentPage}&count=${this.props.pageSize}`)
+        axios.get<{ items: UsersType[], totalCount: number, error: null | string }>(
+            `https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${this.props.pageSize}`)
             .then((response) => {
-                this.props.setIsFetching(false)
                 this.props.setUsers(response.data.items)
+                this.props.setIsFetching(false)
             })
     }
 
     render() {
-
         return (
             <Users users={this.props.users}
                    currentPage={this.props.currentPage}
@@ -67,9 +63,7 @@ export class UsersC extends React.Component<UsersCPropsType> {
                    isFetching={this.props.isFetching}/>
         )
     }
-
 }
-
 
 type MDTPType = {
     follow: (userID: string) => void
@@ -100,7 +94,7 @@ const mapStateToProps = (state: StateType): MSTPType => {
 
 export const UsersContainer =
     connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
-    setUsers, setIsFetching,
-    setTotalCount, setCurrentPage,
-    unfollow, follow
-})(UsersC)
+        setUsers, setIsFetching,
+        setTotalCount, setCurrentPage,
+        unfollow, follow
+    })(UsersC)
