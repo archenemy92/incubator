@@ -10,6 +10,7 @@ import {
     UnfollowType,
     usersReducer
 } from "./usersReducer"
+import {AuthMeType, authReducer} from "./authReducer"
 
 export let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
@@ -75,10 +76,16 @@ export type DialogDataType = {
 export type SidebarDataType = {
     sidebarData: sidebarItemsType[]
 }
+export type AuthDataType = {
+    id: number | null
+    email: string | null
+    login: string | null
+    isAuth: boolean
+}
 
 export type ActionsType = AddPostType | AddMessageType | FollowType |
     UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType |
-    SetIsFetchingType | SetProfileType
+    SetIsFetchingType | SetProfileType | AuthMeType
 
 type RootReducerType = typeof rootReducer
 export type StateType = ReturnType<RootReducerType>
@@ -88,7 +95,8 @@ let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogReducer,
     sidebarPage: sidebarReducer,
-    usersPage: usersReducer
+    usersPage: usersReducer,
+    auth: authReducer
 })
 
 export let store = createStore(rootReducer)
