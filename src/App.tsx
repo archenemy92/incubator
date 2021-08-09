@@ -1,6 +1,5 @@
 import React from "react"
 import "./App.css"
-import {Header} from "./components/Header/Header"
 import {Friends} from "./components/Friends/Friends"
 import {Music} from "./components/Music/Music"
 import {Settings} from "./components/Settings/Settings"
@@ -9,11 +8,12 @@ import {DialogsContainer} from "./components/Dialogs/DialogsContainer"
 import {NavbarContainer} from "./components/Navbar/NavbarContainer"
 import {UsersContainer} from "./components/Users/UsersContainer"
 import {ProfileContainer} from "./components/Profile/ProfileContainer"
+import {HeaderContainer} from "./components/Header/HeaderContainer"
 
 const App: React.FC = () => {
     return (
         <div className={"appWrapper"}>
-            <Header/>
+            <HeaderContainer/>
             <NavbarContainer/>
             <div className={"appWrapperContent"}>
                 <Route path={"/profile/:userId?"} render={() => <ProfileContainer/>}/>
