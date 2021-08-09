@@ -5,24 +5,35 @@ import {ProfileType, StateType} from "../../redux/store"
 import {setProfile} from "../../redux/profileReducer"
 import axios from "axios"
 import {setIsFetching} from "../../redux/usersReducer"
+import {RouteComponentProps, withRouter} from "react-router-dom"
 
-type ProfileCType = {
-    profile: ProfileType | null
-    setProfile: (profile: ProfileType) => void
-    setIsFetching: (isFetching: boolean) =>void
+type Match = {
+    userId: string
 }
 
-class ProfileC extends React.Component<ProfileCType> {
+/*interface ProfileClassType extends RouteComponentProps<Match> {
+    profile: ProfileType | null
+    setProfile: (profile: ProfileType) => void
+    setIsFetching: (isFetching: boolean) => void
+}*/
+
+type OwnProps = MDTPType & MSTPType
+type PropsType = RouteComponentProps<Match> & OwnProps
+
+class ProfileC extends React.Component<PropsType> {
 
     componentDidMount() {
+        let userId = this.props.match.params.userId
+
+        if (!userId) {
+            userId = "2"
+        }
         this.props.setIsFetching(true)
         axios.get<ProfileType>(
-            `https://social-network.samuraijs.com/api/1.0/profile/2`
-        )
+            `https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
             .then((response) => {
                 this.props.setIsFetching(false)
                 this.props.setProfile(response.data)
-
             })
     }
 
@@ -36,7 +47,7 @@ type MSTPType = {
 }
 type MDTPType = {
     setProfile: (profile: ProfileType) => void
-    setIsFetching: (isFetching: boolean) =>void
+    setIsFetching: (isFetching: boolean) => void
 }
 
 const mapStateToProps = (state: StateType): MSTPType => {
@@ -45,5 +56,7 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
+const ProfileWithUrl = withRouter(ProfileC)
+
 export const ProfileContainer =
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {setProfile, setIsFetching})(ProfileC)
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {setProfile, setIsFetching})(ProfileWithUrl)
