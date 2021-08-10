@@ -3,6 +3,7 @@ import {UsersType} from "../../redux/usersReducer"
 import classes from "./Users.module.css"
 import {Preloader} from "../Common/Preloader/Preloader"
 import { NavLink } from "react-router-dom"
+import axios from "axios"
 
 let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
@@ -43,10 +44,33 @@ export const Users: React.FC<UsersPropsType> = (props) => {
         {props.users.map(user => {
 
             const unfollow = () => {
-                props.unfollow(user.id)
+                axios.delete<{data: {}, resultCode: number, messages: string[]}>(
+                    `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {
+                        withCredentials: true,
+                        headers: {
+                            "API-KEY": "ef2db174-b518-48a0-8476-91d72e746177"
+                        }
+                    })
+                    .then((response) => {
+                        if (response.data.resultCode === 0) {
+                            props.unfollow(user.id)
+                        }
+                    })
             }
             const follow = () => {
-                props.follow(user.id)
+                axios.post<{data: {}, resultCode: number, messages: string[]}>(
+                    `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,{}, {
+                        withCredentials: true,
+                        headers: {
+                            "API-KEY": "ef2db174-b518-48a0-8476-91d72e746177"
+                        }
+                    })
+                    .then((response) => {
+                        if (response.data.resultCode === 0) {
+                            props.follow(user.id)
+                        }
+                    })
+
             }
 
             return <div key={user.id} className={classes.user_container}>
@@ -66,9 +90,9 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                     </div>
                 </div>
                 {
-                    user.followed
-                        ? <button onClick={unfollow}>follow</button>
-                        : <button onClick={follow}>unfollow</button>
+                    !user.followed
+                        ? <button onClick={follow}>follow</button>
+                        : <button onClick={unfollow}>unfollow</button>
                 }
             </div>
         })
