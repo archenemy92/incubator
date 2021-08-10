@@ -30,7 +30,12 @@ class ProfileC extends React.Component<PropsType> {
         }
         this.props.setIsFetching(true)
         axios.get<ProfileType>(
-            `https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+            `https://social-network.samuraijs.com/api/1.0/profile/${userId}`, {
+                withCredentials: true,
+                headers: {
+                    "API-KEY": "ef2db174-b518-48a0-8476-91d72e746177"
+                }
+            })
             .then((response) => {
                 this.props.setIsFetching(false)
                 this.props.setProfile(response.data)

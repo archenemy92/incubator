@@ -14,7 +14,10 @@ class HeaderC extends React.Component<HeaderContainerPropsType> {
         this.props.setIsFetching(true)
         axios.get<{data: {id: number, login: string, email: string}, resultCode: number, messages: string[]}>(
             `https://social-network.samuraijs.com/api/1.0/auth/me`, {
-                withCredentials: true
+                withCredentials: true,
+                headers: {
+                    "API-KEY": "ef2db174-b518-48a0-8476-91d72e746177"
+                }
             })
             .then((response) => {
                 let {id, login, email} = response.data.data
