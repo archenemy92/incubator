@@ -13,9 +13,8 @@ class HeaderC extends React.Component<HeaderContainerPropsType> {
     componentDidMount() {
         this.props.setIsFetching(true)
             authApi.me()
-            .then((response) => {
-                let {id, login, email} = response
-                this.props.authMe({id, email, login, isAuth: false})
+            .then(({id, login, email}) => {
+                this.props.authMe({id, login, email, isAuth: false} )
                 this.props.setIsFetching(false)
             })
     }
