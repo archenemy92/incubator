@@ -11,6 +11,7 @@ import {
     usersReducer
 } from "./usersReducer"
 import {AuthMeType, authReducer} from "./authReducer"
+import {AddFriendType, DeleteFriendType, friendReducer} from "./friendsReducer"
 
 export let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
@@ -85,7 +86,8 @@ export type AuthDataType = {
 
 export type ActionsType = AddPostType | AddMessageType | FollowType |
     UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType |
-    SetIsFetchingType | SetProfileType | AuthMeType
+    SetIsFetchingType | SetProfileType | AuthMeType | AddFriendType |
+    DeleteFriendType
 
 type RootReducerType = typeof rootReducer
 export type StateType = ReturnType<RootReducerType>
@@ -96,6 +98,7 @@ let rootReducer = combineReducers({
     dialogsPage: dialogReducer,
     sidebarPage: sidebarReducer,
     usersPage: usersReducer,
+    friendsPage: friendReducer,
     auth: authReducer
 })
 

@@ -34,6 +34,7 @@ const initState: UsersDataType = {
     isFetch: false
 }
 
+
 export const usersReducer = (state = initState, action: ActionsType): UsersDataType => {
     switch (action.type) {
         case FOLLOW_USERS_PAGE:

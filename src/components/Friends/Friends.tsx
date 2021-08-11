@@ -1,9 +1,10 @@
 import React from "react"
+import {User} from "../Users/User"
 
 export const Friends = () => {
     return (
-        <div>
-            FRIENDS
-        </div>
+        <>
+            friends {/*<User id={} photo={} name={}/>*/}
+        </>
     )
 }

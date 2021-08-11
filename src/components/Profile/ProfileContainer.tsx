@@ -3,9 +3,9 @@ import {Profile} from "./Profile"
 import {connect} from "react-redux"
 import {ProfileType, StateType} from "../../redux/store"
 import {setProfile} from "../../redux/profileReducer"
-import axios from "axios"
 import {setIsFetching} from "../../redux/usersReducer"
 import {RouteComponentProps, withRouter} from "react-router-dom"
+import {profileApi} from "../../api/api"
 
 type Match = {
     userId: string
@@ -29,17 +29,10 @@ class ProfileC extends React.Component<PropsType> {
             userId = "2"
         }
         this.props.setIsFetching(true)
-        axios.get<ProfileType>(
-            `https://social-network.samuraijs.com/api/1.0/profile/${userId}`, {
-                withCredentials: true,
-                headers: {
-                    "API-KEY": "ef2db174-b518-48a0-8476-91d72e746177"
-                }
-            })
-            .then((response) => {
-                this.props.setIsFetching(false)
-                this.props.setProfile(response.data)
-            })
+        profileApi.setProfile(userId).then((response) => {
+            this.props.setIsFetching(false)
+            this.props.setProfile(response.data)
+        })
     }
 
     render() {
