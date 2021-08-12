@@ -4,7 +4,7 @@ import {StateType} from "../../redux/store"
 import {
     follow,
     setCurrentPage,
-    setIsFetching,
+    setIsFetching, setIsFollow,
     setTotalCount,
     setUsers,
     unfollow,
@@ -13,38 +13,26 @@ import {
 import React from "react"
 import {userAPI} from "../../api/api"
 
-type UsersCPropsType = {
-    users: UsersType[]
-    totalCount: number
-    currentPage: number
-    pageSize: number
-    isFetching: boolean
-    follow: (userID: string) => void
-    unfollow: (userID: string) => void
-    setUsers: (users: UsersType[]) => void
-    setCurrentPage: (currentPage: number) => void
-    setTotalCount: (count: number) => void
-    setIsFetching: (isFetch: boolean) => void
-}
+type UsersCPropsType = MSTPType & MDTPType
 
 export class UsersC extends React.Component<UsersCPropsType> {
 
     componentDidMount() {
         this.props.setIsFetching(true)
-            userAPI.getUsers(this.props.currentPage, this.props.pageSize).then((response) => {
-                this.props.setUsers(response.data.items)
-                this.props.setTotalCount(response.data.totalCount)
-                this.props.setIsFetching(false)
-            })
+        userAPI.getUsers(this.props.currentPage, this.props.pageSize).then((response) => {
+            this.props.setUsers(response.data.items)
+            this.props.setTotalCount(response.data.totalCount)
+            this.props.setIsFetching(false)
+        })
     }
 
     onPageChangeHandler = (currentPage: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(currentPage)
         userAPI.getUsers(currentPage, this.props.pageSize).then((response) => {
-                this.props.setUsers(response.data.items)
-                this.props.setIsFetching(false)
-            })
+            this.props.setUsers(response.data.items)
+            this.props.setIsFetching(false)
+        })
     }
 
     render() {
@@ -56,7 +44,10 @@ export class UsersC extends React.Component<UsersCPropsType> {
                    onPageChangeHandler={this.onPageChangeHandler}
                    follow={this.props.follow}
                    unfollow={this.props.unfollow}
-                   isFetching={this.props.isFetching}/>
+                   isFetching={this.props.isFetching}
+                   isFollow={this.props.isFollow}
+                   setIsFollow={this.props.setIsFollow}
+            />
         )
     }
 }
@@ -68,10 +59,12 @@ type MDTPType = {
     setCurrentPage: (currentPage: number) => void
     setTotalCount: (count: number) => void
     setIsFetching: (isFetch: boolean) => void
+    setIsFollow: (isFetching: boolean, userID: string) => void
 }
 
 type MSTPType = {
     users: UsersType[]
+    isFollow: string[]
     totalCount: number
     currentPage: number
     pageSize: number
@@ -84,7 +77,8 @@ const mapStateToProps = (state: StateType): MSTPType => {
         totalCount: state.usersPage.totalCount,
         currentPage: state.usersPage.currentPage,
         pageSize: state.usersPage.pageSize,
-        isFetching: state.usersPage.isFetch
+        isFetching: state.usersPage.isFetch,
+        isFollow: state.usersPage.isFollow
     }
 }
 
@@ -92,5 +86,5 @@ export const UsersContainer =
     connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
         setUsers, setIsFetching,
         setTotalCount, setCurrentPage,
-        unfollow, follow
+        unfollow, follow, setIsFollow
     })(UsersC)

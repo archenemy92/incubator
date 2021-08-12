@@ -7,12 +7,14 @@ import {userAPI} from "../../api/api"
 
 type UsersPropsType = {
     users: UsersType[]
+    isFollow: string[]
     currentPage: number
     totalCount: number
     pageSize: number
     onPageChangeHandler: (page: number) => void
     follow: (userID: string) => void
     unfollow: (userID: string) => void
+    setIsFollow: (isFetching: boolean, userID: string) => void
     isFetching: boolean
 }
 
@@ -39,19 +41,22 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                     </span>)}
         </div>
         {props.users.map(user => {
-
             const unfollow = () => {
+                props.setIsFollow(true, user.id)
                 userAPI.unfollow(user.id).then((response) => {
                     if (response.data.resultCode === 0) {
                         props.unfollow(user.id)
                     }
+                    props.setIsFollow(false, user.id)
                 })
             }
             const follow = () => {
+                props.setIsFollow(true, user.id)
                 userAPI.follow(user.id).then((response) => {
                     if (response.data.resultCode === 0) {
                         props.follow(user.id)
                     }
+                    props.setIsFollow(false, user.id)
                 })
             }
 
@@ -59,8 +64,10 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                 <User id={user.id} photo={user.photos.small} name={user.name}/>
                 {
                     !user.followed
-                        ? <button onClick={follow}>follow</button>
-                        : <button onClick={unfollow}>unfollow</button>
+                        ? <button disabled={props.isFollow.some(id => id === user.id)}
+                                  onClick={follow}>follow</button>
+                        : <button disabled={props.isFollow.some(id => id === user.id)}
+                                  onClick={unfollow}>unfollow</button>
                 }
             </div>
         })
