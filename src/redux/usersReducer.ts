@@ -6,6 +6,7 @@ const SET_USERS_USERS_PAGE = "SET_USERS_USERS_PAGE"
 const SET_TOTAL_COUNT_USERS_PAGE = "SET_TOTAL_COUNT_USERS_PAGE"
 const SET_CURRENT_PAGE_USERS_PAGE = "SET_CURRENT_PAGE_USERS_PAGE"
 const SET_IS_FETCHING_USERS_PAGE = "SET_IS_FETCHING_USERS_PAGE"
+const IS_FOLLOW_USERS_PAGE = "IS_FOLLOW_USERS_PAGE"
 
 export type UsersType = {
     name: string
@@ -20,6 +21,7 @@ export type UsersType = {
 
 export type UsersDataType = {
     users: UsersType[]
+    isFollow: string[]
     totalCount: number
     currentPage: number
     pageSize: number
@@ -31,7 +33,8 @@ const initState: UsersDataType = {
     currentPage: 1,
     totalCount: 0,
     pageSize: 5,
-    isFetch: false
+    isFetch: false,
+    isFollow: []
 }
 
 
@@ -83,6 +86,13 @@ export const usersReducer = (state = initState, action: ActionsType): UsersDataT
                 ...state,
                 isFetch: action.isFetching
             }
+        case IS_FOLLOW_USERS_PAGE:
+            return {
+                ...state,
+                isFollow: action.isFetching
+                    ? [...state.isFollow, action.userID]
+                    : state.isFollow.filter(id => id !== action.userID)
+            }
         default:
             return state
     }
@@ -111,6 +121,11 @@ export type SetTotalCountType = {
 export type SetIsFetchingType = {
     type: typeof SET_IS_FETCHING_USERS_PAGE
     isFetching: boolean
+}
+export type SetIsFollowType = {
+    type: typeof IS_FOLLOW_USERS_PAGE
+    isFetching: boolean
+    userID: string
 }
 
 export const follow = (userID: string): FollowType => {
@@ -146,6 +161,13 @@ export const setTotalCount = (count: number): SetTotalCountType => {
 export const setIsFetching = (isFetching: boolean): SetIsFetchingType => {
     return {
         type: SET_IS_FETCHING_USERS_PAGE,
+        isFetching
+    }
+}
+export const setIsFollow = (isFetching: boolean, userID: string): SetIsFollowType => {
+    return {
+        type: IS_FOLLOW_USERS_PAGE,
+        userID,
         isFetching
     }
 }
