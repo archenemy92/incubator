@@ -1,4 +1,5 @@
-import {ActionsType} from "./store"
+import {ActionsType, ThunkType} from "./store"
+import {userAPI} from "../api/api"
 
 const FOLLOW_USERS_PAGE = "FOLLOW_USERS_PAGE"
 const UNFOLLOW_USERS_PAGE = "UNFOLLOW_USERS_PAGE"
@@ -36,7 +37,6 @@ const initState: UsersDataType = {
     isFetch: false,
     isFollow: []
 }
-
 
 export const usersReducer = (state = initState, action: ActionsType): UsersDataType => {
     switch (action.type) {
@@ -128,13 +128,13 @@ export type SetIsFollowType = {
     userID: string
 }
 
-export const follow = (userID: string): FollowType => {
+export const followSuccess = (userID: string): FollowType => {
     return {
         type: FOLLOW_USERS_PAGE,
         userID
     }
 }
-export const unfollow = (userID: string): UnfollowType => {
+export const unfollowSuccess = (userID: string): UnfollowType => {
     return {
         type: UNFOLLOW_USERS_PAGE,
         userID
@@ -169,5 +169,37 @@ export const setIsFollow = (isFetching: boolean, userID: string): SetIsFollowTyp
         type: IS_FOLLOW_USERS_PAGE,
         userID,
         isFetching
+    }
+}
+
+export const getUsers = (currentPage: number, pageSize: number): ThunkType => {
+    return async (dispatch, getState) => {
+        dispatch(setIsFetching(true))
+        let response = await userAPI.getUsers(currentPage, pageSize)
+        dispatch(setUsers(response.data.items))
+        dispatch(setTotalCount(response.data.totalCount))
+        dispatch(setIsFetching(false))
+    }
+}
+
+export const follow = (userId: string): ThunkType => {
+    return async (dispatch) => {
+        dispatch(setIsFollow(true, userId))
+        let response = await userAPI.follow(userId)
+        if (response.data.resultCode === 0) {
+            dispatch(followSuccess(userId))
+        }
+        dispatch(setIsFollow(false, userId))
+    }
+}
+
+export const unfollow = (userId: string): ThunkType => {
+    return async (dispatch) => {
+        dispatch(setIsFollow(true, userId))
+        let response = await userAPI.unfollow(userId)
+        if (response.data.resultCode === 0) {
+            dispatch(unfollowSuccess(userId))
+        }
+        dispatch(setIsFollow(false, userId))
     }
 }
