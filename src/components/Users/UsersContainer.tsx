@@ -3,36 +3,26 @@ import {Users} from "./Users"
 import {StateType} from "../../redux/store"
 import {
     follow,
+    getUsers,
     setCurrentPage,
     setIsFetching, setIsFollow,
     setTotalCount,
-    setUsers,
     unfollow,
     UsersType
 } from "../../redux/usersReducer"
 import React from "react"
-import {userAPI} from "../../api/api"
 
 type UsersCPropsType = MSTPType & MDTPType
 
 export class UsersC extends React.Component<UsersCPropsType> {
 
     componentDidMount() {
-        this.props.setIsFetching(true)
-        userAPI.getUsers(this.props.currentPage, this.props.pageSize).then((response) => {
-            this.props.setUsers(response.data.items)
-            this.props.setTotalCount(response.data.totalCount)
-            this.props.setIsFetching(false)
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChangeHandler = (currentPage: number) => {
-        this.props.setIsFetching(true)
+        this.props.getUsers(currentPage, this.props.pageSize)
         this.props.setCurrentPage(currentPage)
-        userAPI.getUsers(currentPage, this.props.pageSize).then((response) => {
-            this.props.setUsers(response.data.items)
-            this.props.setIsFetching(false)
-        })
     }
 
     render() {
@@ -55,7 +45,7 @@ export class UsersC extends React.Component<UsersCPropsType> {
 type MDTPType = {
     follow: (userID: string) => void
     unfollow: (userID: string) => void
-    setUsers: (users: UsersType[]) => void
+    getUsers: (currentPage: number, pageSize: number) => void
     setCurrentPage: (currentPage: number) => void
     setTotalCount: (count: number) => void
     setIsFetching: (isFetch: boolean) => void
@@ -84,7 +74,7 @@ const mapStateToProps = (state: StateType): MSTPType => {
 
 export const UsersContainer =
     connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
-        setUsers, setIsFetching,
+        getUsers, setIsFetching,
         setTotalCount, setCurrentPage,
         unfollow, follow, setIsFollow
     })(UsersC)
