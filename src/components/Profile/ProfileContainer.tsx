@@ -2,10 +2,8 @@ import React from "react"
 import {Profile} from "./Profile"
 import {connect} from "react-redux"
 import {ProfileType, StateType} from "../../redux/store"
-import {setProfile} from "../../redux/profileReducer"
-import {setIsFetching} from "../../redux/usersReducer"
+import {getProfile} from "../../redux/profileReducer"
 import {RouteComponentProps, withRouter} from "react-router-dom"
-import {profileApi} from "../../api/api"
 
 type Match = {
     userId: string
@@ -24,15 +22,10 @@ class ProfileC extends React.Component<PropsType> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
-
         if (!userId) {
             userId = "2"
         }
-        this.props.setIsFetching(true)
-        profileApi.setProfile(userId).then((response) => {
-            this.props.setIsFetching(false)
-            this.props.setProfile(response.data)
-        })
+       this.props.getProfile(userId)
     }
 
     render() {
@@ -44,8 +37,7 @@ type MSTPType = {
     profile: ProfileType | null
 }
 type MDTPType = {
-    setProfile: (profile: ProfileType) => void
-    setIsFetching: (isFetching: boolean) => void
+    getProfile: (userID: string) => void
 }
 
 const mapStateToProps = (state: StateType): MSTPType => {
@@ -57,4 +49,4 @@ const mapStateToProps = (state: StateType): MSTPType => {
 const ProfileWithUrl = withRouter(ProfileC)
 
 export const ProfileContainer =
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {setProfile, setIsFetching})(ProfileWithUrl)
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {getProfile})(ProfileWithUrl)

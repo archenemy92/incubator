@@ -1,9 +1,12 @@
-import {ActionsType, ProfileDataType, ProfileType} from "./store"
+import {ActionsType, ProfileDataType, ProfileType, ThunkType} from "./store"
 import {v1} from "uuid"
+import {profileApi} from "../api/api"
+import {setIsFetching} from "./usersReducer"
+import ava from "./../accets/avatar.png"
 
 export const PROFILE_ADD_POST = "PROFILE_ADD_POST"
 export const PROFILE_SET_PROFILE = "PROFILE_SET_PROFILE"
-let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
+
 
 export type AddPostType = {
     type: typeof PROFILE_ADD_POST
@@ -56,3 +59,11 @@ export const profileReducer = (state = initState, action: ActionsType): ProfileD
             return state
     }
 }
+
+export const getProfile = (userId: string): ThunkType =>
+    async (dispatch) => {
+        dispatch(setIsFetching(true))
+        let response = await profileApi.getProfile(userId)
+        dispatch(setIsFetching(false))
+        dispatch(setProfile(response.data))
+    }

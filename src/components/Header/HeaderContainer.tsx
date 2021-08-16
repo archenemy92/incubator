@@ -1,22 +1,15 @@
 import React from "react"
 import {Header} from "./Header"
 import {connect} from "react-redux"
-import {AuthDataType, StateType} from "../../redux/store"
-import {setIsFetching} from "../../redux/usersReducer"
-import {authMe} from "../../redux/authReducer"
-import {authApi} from "../../api/api"
+import {StateType} from "../../redux/store"
+import {getAuthData} from "../../redux/authReducer"
 
 type HeaderContainerPropsType = MSTPType & MDTPType
 
 class HeaderC extends React.Component<HeaderContainerPropsType> {
 
     componentDidMount() {
-        this.props.setIsFetching(true)
-            authApi.me()
-            .then(({id, login, email}) => {
-                this.props.authMe({id, login, email, isAuth: false} )
-                this.props.setIsFetching(false)
-            })
+        this.props.getAuthData()
     }
 
     render() {
@@ -31,8 +24,7 @@ type MSTPType = {
 }
 
 type MDTPType = {
-    setIsFetching: (fetch: boolean) => void
-    authMe: (data: AuthDataType) => void
+    getAuthData: () => void
 }
 
 const mapStateToProps = (state: StateType): MSTPType => {
@@ -43,5 +35,5 @@ const mapStateToProps = (state: StateType): MSTPType => {
 }
 
 export const HeaderContainer = connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
-    setIsFetching, authMe
+    getAuthData
 })(HeaderC)

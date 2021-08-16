@@ -41,7 +41,7 @@ export let userAPI = {
 }
 
 export let profileApi = {
-    setProfile(userId: string) {
+    getProfile(userId: string) {
         return instance.get<ProfileType>(`profile/${userId}`)
     },
 }

@@ -1,8 +1,7 @@
 import React from "react"
 import classes from "./Users.module.css"
 import {NavLink} from "react-router-dom"
-
-let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
+import ava from "./../../accets/avatar.png"
 
 type UserPropsType = {
     id: string
@@ -16,7 +15,6 @@ export const User: React.FC<UserPropsType> = ({id, photo, name}) => {
                 <NavLink to={"/profile/" + id}>
                     <img src={photo ? photo : ava} alt={"avatar must be here"}/>
                 </NavLink>
-
             </div>
             <div className={classes.user_name}>
                 {name}
