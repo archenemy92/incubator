@@ -3,7 +3,15 @@ import {Profile} from "./Profile"
 import {connect} from "react-redux"
 import {ProfileType, StateType} from "../../redux/store"
 import {getProfile} from "../../redux/profileReducer"
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom"
+import {RouteComponentProps, withRouter} from "react-router-dom"
+import {withRedirect} from "../../accets/hoc/withRedirect"
+
+type MSTPType = {
+    profile: ProfileType | null
+}
+type MDTPType = {
+    getProfile: (userID: string) => void
+}
 
 type Match = {
     userId: string
@@ -29,27 +37,18 @@ class ProfileC extends React.Component<PropsType> {
     }
 
     render() {
-        if (!this.props.isAuth) return <Redirect to={"login"}/>
         return <Profile {...this.props} profile={this.props.profile}/>
     }
-}
-
-type MSTPType = {
-    profile: ProfileType | null
-    isAuth: boolean
-}
-type MDTPType = {
-    getProfile: (userID: string) => void
 }
 
 const mapStateToProps = (state: StateType): MSTPType => {
     return {
         profile: state.profilePage.profile,
-        isAuth: state.auth.isAuth
     }
 }
 
-const ProfileWithUrl = withRouter(ProfileC)
+const Redirect = withRedirect(ProfileC)
 
-export const ProfileContainer =
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {getProfile})(ProfileWithUrl)
+export const ProfileContainer = withRouter(
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {getProfile})(Redirect)
+)

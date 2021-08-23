@@ -11,7 +11,7 @@ import {
     UsersType
 } from "../../redux/usersReducer"
 import React from "react"
-import {Redirect} from "react-router-dom"
+import {withRedirect} from "../../accets/hoc/withRedirect"
 
 type UsersCPropsType = MSTPType & MDTPType
 
@@ -27,7 +27,6 @@ export class UsersC extends React.Component<UsersCPropsType> {
     }
 
     render() {
-        if (!this.props.isAuth) return <Redirect to={"login"}/>
         return (
             <Users users={this.props.users}
                    currentPage={this.props.currentPage}
@@ -61,7 +60,6 @@ type MSTPType = {
     currentPage: number
     pageSize: number
     isFetching: boolean
-    isAuth: boolean
 }
 
 const mapStateToProps = (state: StateType): MSTPType => {
@@ -72,13 +70,13 @@ const mapStateToProps = (state: StateType): MSTPType => {
         pageSize: state.usersPage.pageSize,
         isFetching: state.usersPage.isFetch,
         isFollow: state.usersPage.isFollow,
-        isAuth: state.auth.isAuth
     }
 }
 
-export const UsersContainer =
+export const UsersContainer = withRedirect(
     connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
         getUsers, setIsFetching,
         setTotalCount, setCurrentPage,
         unfollow, follow, setIsFollow
     })(UsersC)
+)

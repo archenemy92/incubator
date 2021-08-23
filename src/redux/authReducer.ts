@@ -35,7 +35,7 @@ export const authReducer = (state = initState, action: ActionsType): AuthDataTyp
             debugger
             return {
                 ...state,
-                ...action.data,
+                data: {...action.data},
                 isAuth: true
             }
         default:
