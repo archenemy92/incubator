@@ -12,6 +12,7 @@ import {
 } from "../../redux/usersReducer"
 import React from "react"
 import {withRedirect} from "../../accets/hoc/withRedirect"
+import {compose} from "redux"
 
 type UsersCPropsType = MSTPType & MDTPType
 
@@ -73,10 +74,14 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
-export const UsersContainer = withRedirect(
+export const UsersContainer = compose<React.ComponentType>(
     connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
         getUsers, setIsFetching,
         setTotalCount, setCurrentPage,
         unfollow, follow, setIsFollow
-    })(UsersC)
-)
+    }),
+    withRedirect
+)(UsersC)
+
+
+

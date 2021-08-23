@@ -5,6 +5,7 @@ import {ProfileType, StateType} from "../../redux/store"
 import {getProfile} from "../../redux/profileReducer"
 import {RouteComponentProps, withRouter} from "react-router-dom"
 import {withRedirect} from "../../accets/hoc/withRedirect"
+import {compose} from "redux"
 
 type MSTPType = {
     profile: ProfileType | null
@@ -47,8 +48,8 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
-const Redirect = withRedirect(ProfileC)
-
-export const ProfileContainer = withRouter(
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {getProfile})(Redirect)
-)
+export const ProfileContainer = compose<React.ComponentType>(
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {getProfile}),
+    withRouter,
+    withRedirect
+)(ProfileC)

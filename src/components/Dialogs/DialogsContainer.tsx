@@ -3,6 +3,8 @@ import {Dialogs} from "./Dialogs"
 import {connect} from "react-redux"
 import {DialogItemsType, MessagesType, StateType} from "../../redux/store"
 import {withRedirect} from "../../accets/hoc/withRedirect"
+import {compose} from "redux"
+import React from "react"
 
 type MSTPType = {
     dialogData: DialogItemsType[]
@@ -20,6 +22,9 @@ const mapStateToProps = (state: StateType): MSTPType => {
     }
 }
 
-export const DialogsContainer = withRedirect(
-    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {addMessage})(Dialogs)
-)
+export const DialogsContainer = compose<React.ComponentType>(
+    connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {addMessage}),
+    withRedirect
+)(Dialogs)
+
+
