@@ -6,6 +6,7 @@ import {DialogItemsType, MessagesType, StateType} from "../../redux/store"
 type MSTPType = {
     dialogData: DialogItemsType[]
     messages: MessagesType[]
+    isAuth: boolean
 }
 
 type MDTPType = {
@@ -15,7 +16,8 @@ type MDTPType = {
 const mapStateToProps = (state: StateType): MSTPType => {
     return {
         dialogData: state.dialogsPage.dialogData,
-        messages: state.dialogsPage.messages
+        messages: state.dialogsPage.messages,
+        isAuth: state.auth.isAuth
     }
 }
 

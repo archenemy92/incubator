@@ -49,6 +49,6 @@ export let profileApi = {
 export let authApi = {
     me() {
         return instance.get<authResponseType>(`auth/me`)
-            .then(response => response.data.data)
+            .then(response => response.data)
     }
 }

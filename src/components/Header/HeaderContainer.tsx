@@ -29,7 +29,7 @@ type MDTPType = {
 
 const mapStateToProps = (state: StateType): MSTPType => {
     return {
-        login: state.auth.login,
+        login: state.auth.data.login,
         isAuth: state.auth.isAuth
     }
 }

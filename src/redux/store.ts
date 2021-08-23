@@ -10,9 +10,9 @@ import {
     UnfollowType,
     usersReducer
 } from "./usersReducer"
-import {AuthMeType, authReducer} from "./authReducer"
+import {AuthMeType, authReducer, DataType} from "./authReducer"
 import {AddFriendType, DeleteFriendType, friendReducer} from "./friendsReducer"
-import { applyMiddleware } from "redux"
+import {applyMiddleware} from "redux"
 import thunkMiddleware, {ThunkAction} from "redux-thunk"
 
 export let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
@@ -80,9 +80,7 @@ export type SidebarDataType = {
     sidebarData: sidebarItemsType[]
 }
 export type AuthDataType = {
-    id: number | null
-    email: string | null
-    login: string | null
+    data: DataType
     isAuth: boolean
 }
 

@@ -4,11 +4,13 @@ import {FriendMessage} from "./Messages/FriendMessage"
 import {MyMessage} from "./Messages/MyMessage"
 import {DialogItemsType, MessagesType} from "../../redux/store"
 import {DialogItems} from "./DialogItems/DialogItems"
+import {Redirect} from "react-router-dom"
 
 type DialogsPropsType = {
     dialogData: DialogItemsType[]
     messages: MessagesType[]
     addMessage: (messageText: string) => void
+    isAuth: boolean
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
@@ -24,6 +26,9 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
     const dialogsElem = props.dialogData.map(d => <DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
     const message = props.messages.map(m => <MyMessage key={m.id} ava={m.img} text={m.body}/>)
+
+    if (!props.isAuth) return <Redirect to={"login"}/>
+
     return (
         <div className={style.dialogs_content}>
             <div className={style.dialogs_items}>

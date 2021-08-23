@@ -4,27 +4,35 @@ import {setIsFetching} from "./usersReducer"
 
 export const SET_AUTH_DATA_AUTHORIZE = "SET_AUTH_DATA_AUTHORIZE"
 
+export type DataType = {
+    id: number | null
+    email: string | null
+    login: string | null
+}
+
 const initState: AuthDataType = {
-    id: null,
-    login: null,
-    email: null,
+    data: {
+        id: null,
+        login: null,
+        email: null
+    },
     isAuth: false
 }
 
 export type AuthMeType = {
     type: typeof SET_AUTH_DATA_AUTHORIZE
-    data: AuthDataType
+    data: DataType
 }
-export const authMe = (data: AuthDataType): AuthMeType => {
+export const authMe = (data: DataType): AuthMeType => {
     return {
         type: SET_AUTH_DATA_AUTHORIZE,
         data
     }
 }
-
 export const authReducer = (state = initState, action: ActionsType): AuthDataType => {
     switch (action.type) {
         case SET_AUTH_DATA_AUTHORIZE:
+            debugger
             return {
                 ...state,
                 ...action.data,
@@ -38,7 +46,11 @@ export const authReducer = (state = initState, action: ActionsType): AuthDataTyp
 export const getAuthData = (): ThunkType =>
     async (dispatch) => {
         dispatch(setIsFetching(true))
-        const {id, login, email} = await authApi.me()
-        dispatch(authMe({id, login, email, isAuth: false}))
-        dispatch(setIsFetching(false))
+        const response = await authApi.me()
+        let {id, login, email} = response.data
+        if (response.resultCode === 0) {
+            dispatch(authMe({id, login, email}))
+            dispatch(setIsFetching(false))
+        }
+
     }
