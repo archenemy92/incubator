@@ -6,9 +6,11 @@ import ava from "../../accets/avatar.png"
 
 type AvaDescType = {
     profile: ProfileType | null
+    updateStatus: (status: string) => void
+    status: string
 }
 
-export const AvaDesc: React.FC<AvaDescType> = ({profile}) => {
+export const AvaDesc: React.FC<AvaDescType> = ({profile, updateStatus, status}) => {
     if (!profile) {
         return <Preloader/>
     }
@@ -18,7 +20,7 @@ export const AvaDesc: React.FC<AvaDescType> = ({profile}) => {
                 <img className={styles.ava}
                      src={profile.photos.large ? profile.photos.large : ava}
                      alt={"profileImage"}/>
-                <Status/>
+                <Status updateStatus={updateStatus} status={status}/>
             </div>
             <div className={styles.desc}>
                 <span>{profile.aboutMe}</span>
@@ -29,21 +31,29 @@ export const AvaDesc: React.FC<AvaDescType> = ({profile}) => {
     )
 }
 
+type StatusPropsType = {
+    updateStatus: (status: string) => void
+    status: string
+}
+
 type StateType = {
     editeMode: boolean
     value: string
 }
 
-class Status extends React.Component {
+class Status extends React.Component<StatusPropsType> {
     state: StateType = {
         editeMode: false,
-        value: "value"
+        value: this.props.status
     }
 
     isEditeMode = () => {
         this.setState({
             editeMode: !this.state.editeMode
         })
+        if (this.state.editeMode) {
+            this.props.updateStatus(this.state.value)
+        }
     }
 
     onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +67,7 @@ class Status extends React.Component {
             <div>
                 {!this.state.editeMode
                     ? <div>
-                        <span onDoubleClick={this.isEditeMode}>{this.state.value}</span>
+                        <span onDoubleClick={this.isEditeMode}>{this.state.value || "-----"}</span>
                     </div>
                     : <div>
                         <input

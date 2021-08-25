@@ -7,12 +7,16 @@ import {ProfileType} from "../../redux/store"
 
 type ProfilePropsType = {
     profile: ProfileType | null
+    updateStatus: (status: string) => void
+    status: string
 }
-export const Profile: React.FC<ProfilePropsType> = ({profile}) => {
+export const Profile: React.FC<ProfilePropsType> = ({profile, ...restProps}) => {
 
     return (
         <div className={styles.content}>
-            <AvaDesc profile={profile}/>
+            <AvaDesc profile={profile}
+                     updateStatus={restProps.updateStatus}
+                     status={restProps.status}/>
             <PostsContainer/>
         </div>
     )

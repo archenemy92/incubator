@@ -1,4 +1,4 @@
-import {AddPostType, profileReducer, SetProfileType} from "./profileReducer"
+import {AddPostType, profileReducer, SetProfileStatusType, SetProfileType} from "./profileReducer"
 import {AddMessageType, dialogReducer} from "./dialogsReducer"
 import {sidebarReducer} from "./sidebarReducer"
 import {combineReducers, createStore} from "redux"
@@ -64,6 +64,7 @@ export type ProfileType = {
 export type ProfileDataType = {
     postData: PostType[]
     profile: ProfileType | null
+    status: string
 }
 export type MessagesType = {
     id: string
@@ -87,7 +88,7 @@ export type AuthDataType = {
 export type ActionsType = AddPostType | AddMessageType | FollowType |
     UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType |
     SetIsFetchingType | SetProfileType | AuthMeType | AddFriendType |
-    DeleteFriendType | SetIsFollowType
+    DeleteFriendType | SetIsFollowType | SetProfileStatusType
 
 export type ThunkType = ThunkAction<Promise<void>, StateType, unknown, ActionsType>
 
