@@ -16,7 +16,7 @@ type GetUsersResponseType = {
     error: null | string
 }
 
-type FollowUnfollowResponseType = {
+type OwnResponseType = {
     data: {}
     resultCode: number
     messages: string[]
@@ -33,10 +33,10 @@ export let userAPI = {
         return instance.get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
     },
     follow(userId: string) {
-        return instance.post<FollowUnfollowResponseType>(`follow/${userId}`, {})
+        return instance.post<OwnResponseType>(`follow/${userId}`, {})
     },
     unfollow(userId: string) {
-        return instance.delete<FollowUnfollowResponseType>(`follow/${userId}`)
+        return instance.delete<OwnResponseType>(`follow/${userId}`)
     }
 }
 
@@ -44,6 +44,12 @@ export let profileApi = {
     getProfile(userId: string) {
         return instance.get<ProfileType>(`profile/${userId}`)
     },
+    setProfileStatus(userId: string) {
+        return instance.get<string>(`profile/status/${userId}`)
+    },
+    updateProfileStatus(status:string) {
+        return instance.put<OwnResponseType>(`profile/status/`, {status})
+    }
 }
 
 export let authApi = {
