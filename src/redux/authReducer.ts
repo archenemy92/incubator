@@ -32,7 +32,6 @@ export const authMe = (data: DataType): AuthMeType => {
 export const authReducer = (state = initState, action: ActionsType): AuthDataType => {
     switch (action.type) {
         case SET_AUTH_DATA_AUTHORIZE:
-            debugger
             return {
                 ...state,
                 data: {...action.data},

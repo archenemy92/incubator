@@ -7,7 +7,6 @@ type HeaderPropsType = {
 }
 
 export const Header: React.FC<HeaderPropsType> = ({login, isAuth}) => {
-   debugger
     return (
         <header className={style.header}>
             <img className={style.img}
