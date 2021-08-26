@@ -33,9 +33,10 @@ type PropsType = RouteComponentProps<Match> & OwnProps
 class ProfileC extends React.Component<PropsType> {
 
     componentDidMount() {
+
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = "2"
+            userId = "10911"
         }
         this.props.getProfile(userId)
         this.props.getProfileStatus(userId)

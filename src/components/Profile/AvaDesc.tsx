@@ -45,21 +45,29 @@ class Status extends React.Component<StatusPropsType> {
     state: StateType = {
         editeMode: false,
         value: this.props.status
+
     }
 
     isEditeMode = () => {
         this.setState({
             editeMode: !this.state.editeMode
         })
-        if (this.state.editeMode) {
-            this.props.updateStatus(this.state.value)
-        }
+        this.props.updateStatus(this.state.value)
     }
 
     onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             value: e.currentTarget.value
         })
+    }
+
+    componentDidUpdate(prevProps: Readonly<StatusPropsType>) {
+
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                value: this.props.status
+            })
+        }
     }
 
     render() {

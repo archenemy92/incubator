@@ -68,6 +68,11 @@ export const profileReducer = (state = initState, action: ActionsType): ProfileD
                 ...state,
                 profile: action.profile
             }
+        case PROFILE_SET_PROFILE_STATUS:
+            return {
+                ...state,
+                status: action.status
+            }
         default:
             return state
     }
