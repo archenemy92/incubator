@@ -14,6 +14,7 @@ import {AuthMeType, authReducer, DataType} from "./authReducer"
 import {AddFriendType, DeleteFriendType, friendReducer} from "./friendsReducer"
 import {applyMiddleware} from "redux"
 import thunkMiddleware, {ThunkAction} from "redux-thunk"
+import {reducer as formReducer} from "redux-form"
 
 export let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
@@ -102,7 +103,8 @@ let rootReducer = combineReducers({
     sidebarPage: sidebarReducer,
     usersPage: usersReducer,
     friendsPage: friendReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 export let store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
