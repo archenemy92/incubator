@@ -1,9 +1,10 @@
-import React, {ChangeEvent, useState} from "react"
+import React from "react"
 import style from "./dialogs.module.css"
 import {FriendMessage} from "./Messages/FriendMessage"
 import {MyMessage} from "./Messages/MyMessage"
 import {DialogItemsType, MessagesType} from "../../redux/store"
 import {DialogItems} from "./DialogItems/DialogItems"
+import {DialogsFormContainer, DialogsFormDataType} from "./DialogsForm"
 
 type DialogsPropsType = {
     dialogData: DialogItemsType[]
@@ -12,15 +13,16 @@ type DialogsPropsType = {
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
-    const [messageBody, setMessageBody] = useState("")
 
-    const addMessage = () => {
-        props.addMessage(messageBody)
-        setMessageBody("")
+    const onSubmitHandler = (formData: DialogsFormDataType) => {
+        addMessage(formData.messageBody)
+        formData.messageBody = ""
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setMessageBody(e.currentTarget.value)
+
+    const addMessage = (text: string) => {
+        props.addMessage(text)
     }
+
 
     const dialogsElem = props.dialogData.map(d => <DialogItems key={d.id} name={d.name} id={d.id} img={d.img}/>)
     const message = props.messages.map(m => <MyMessage key={m.id} ava={m.img} text={m.body}/>)
@@ -41,14 +43,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
                 </div>
             </div>
             <div className={style.dialogs_actions}>
-                <div className={style.dialogs_actions_textarea}>
-                    <textarea className={style.dialogs_textarea}
-                              value={messageBody}
-                              onChange={onChangeHandler}/>
-                </div>
-                <div className={style.dialogs_actions_button}>
-                    <button onClick={addMessage}>SEND</button>
-                </div>
+                <DialogsFormContainer onSubmit={onSubmitHandler}/>
             </div>
         </div>
     )
