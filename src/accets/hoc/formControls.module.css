@@ -1,0 +1,19 @@
+.textField input,
+.textField textarea {
+    outline: none;
+    border-radius: 5px;
+}
+
+.errorField input,
+.errorField textarea {
+    outline: none;
+    border: 1px solid red;
+    border-radius: 5px;
+}
+
+.error {
+    margin: 0 0 5px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    color: red;
+}

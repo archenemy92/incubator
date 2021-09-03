@@ -1,4 +1,5 @@
 import React from "react"
+import style from  "./formControls.module.css"
 
 export function Form<T>(El: string) {
     return function (props: any) {
@@ -7,11 +8,11 @@ export function Form<T>(El: string) {
         return (
             <div>
                 <label>
-                    <div>
-                        <El {...input} {...restProps as T} style={{border: "solid 2px red"}}/>
+                    <div className={!error?style.textField: style.errorField}>
+                        <El {...input} {...restProps as T}/>
                     </div>
-                    <div style={{color: "red", fontSize: "10px"}}>
-                        {error && <span >{meta.error}</span>}
+                    <div className={style.error}>
+                        {error && <span>{meta.error}</span>}
                     </div>
                 </label>
             </div>
