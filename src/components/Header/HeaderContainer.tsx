@@ -1,39 +1,14 @@
 import React from "react"
 import {Header} from "./Header"
-import {connect} from "react-redux"
+import {useSelector} from "react-redux"
 import {StateType} from "../../redux/store"
-import {getAuthData} from "../../redux/authReducer"
 
-type HeaderContainerPropsType = MSTPType & MDTPType
+export const HeaderContainer: React.FC = () => {
 
-class HeaderC extends React.Component<HeaderContainerPropsType> {
+    const isAuth = useSelector<StateType, boolean>(state => state.auth.isAuth)
+    const login = useSelector<StateType, string | null>(state => state.auth.data.login)
 
-    componentDidMount() {
-        this.props.getAuthData()
-    }
-
-    render() {
-        return (
-            <Header {...this.props}/>)
-    }
+    return (
+        <Header isAuth={isAuth} login={login}/>
+    )
 }
-
-type MSTPType = {
-    login: string | null
-    isAuth: boolean
-}
-
-type MDTPType = {
-    getAuthData: () => void
-}
-
-const mapStateToProps = (state: StateType): MSTPType => {
-    return {
-        login: state.auth.data.login,
-        isAuth: state.auth.isAuth
-    }
-}
-
-export const HeaderContainer = connect<MSTPType, MDTPType, {}, StateType>(mapStateToProps, {
-    getAuthData
-})(HeaderC)

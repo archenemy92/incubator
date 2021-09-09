@@ -15,6 +15,7 @@ import {AddFriendType, DeleteFriendType, friendReducer} from "./friendsReducer"
 import {applyMiddleware} from "redux"
 import thunkMiddleware, {ThunkAction} from "redux-thunk"
 import {reducer as formReducer} from "redux-form"
+import {appReducer, InitializedType} from "./appReducer"
 
 export let ava = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrrxsxZSpsfebkw8VLXe6R5j7mryT6PK7Pg&usqp=CAU"
 
@@ -89,7 +90,7 @@ export type AuthDataType = {
 export type ActionsType = AddPostType | AddMessageType | FollowType |
     UnfollowType | SetUsersType | SetTotalCountType | SetCurrentPageType |
     SetIsFetchingType | SetProfileType | AuthMeType | AddFriendType |
-    DeleteFriendType | SetIsFollowType | SetProfileStatusType
+    DeleteFriendType | SetIsFollowType | SetProfileStatusType | InitializedType
 
 export type ThunkType = ThunkAction<Promise<void>, StateType, unknown, ActionsType>
 
@@ -104,6 +105,7 @@ let rootReducer = combineReducers({
     usersPage: usersReducer,
     friendsPage: friendReducer,
     auth: authReducer,
+    app: appReducer,
     form: formReducer
 })
 
