@@ -9,7 +9,7 @@ export function Form<T>(El: string) {
             <div>
                 <label>
                     <div className={!error?style.textField: style.errorField}>
-                        <El {...input} {...restProps as T}/>
+                        <El {...input} {...restProps as T}/> {props.fieldTitle}
                     </div>
                     <div className={style.error}>
                         {error && <span>{meta.error}</span>}

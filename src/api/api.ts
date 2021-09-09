@@ -25,7 +25,7 @@ type OwnResponseType = {
 }
 
 type authResponseType = {
-    data: { id: number, login: string, email: string }
+    data: { id: string, login: string, email: string }
     resultCode: number
     messages: string[]
 }
