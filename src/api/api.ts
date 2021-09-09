@@ -17,7 +17,9 @@ type GetUsersResponseType = {
 }
 
 type OwnResponseType = {
-    data: {}
+    data: {
+        userId?: string
+    }
     resultCode: number
     messages: string[]
 }
@@ -47,7 +49,7 @@ export let profileApi = {
     setProfileStatus(userId: string) {
         return instance.get<string>(`profile/status/${userId}`)
     },
-    updateProfileStatus(status:string) {
+    updateProfileStatus(status: string) {
         return instance.put<OwnResponseType>(`profile/status/`, {status})
     }
 }
@@ -56,5 +58,12 @@ export let authApi = {
     me() {
         return instance.get<authResponseType>(`auth/me`)
             .then(response => response.data)
+    },
+    login(email: string, password: string, rememberMe: boolean) {
+        debugger
+        return instance.post<OwnResponseType>(`auth/login`, {email, password, rememberMe})
+    },
+    logout() {
+        return instance.delete<OwnResponseType>(`auth/login`)
     }
 }

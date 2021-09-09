@@ -13,7 +13,9 @@ export const Header: React.FC<HeaderPropsType> = ({login, isAuth}) => {
                  alt={"logo"}
                  src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTyFmMV4e7Cgm3rAIKLnsrDkahJPFWL2wwIg&usqp=CAU"}/>
             <input className={style.input}/>
-            {isAuth? <div className={style.login}>{login}</div> : <span>Login</span> }
+            {isAuth
+                ? <div className={style.login}>{login}</div>
+                : <span>Login</span> }
         </header>
     )
 }
