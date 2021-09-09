@@ -1,16 +1,14 @@
 import React from "react"
 import {Profile} from "./Profile"
 import {connect} from "react-redux"
-import {ProfileType, StateType} from "../../redux/store"
+import {StateType} from "../../redux/store"
 import {getProfile, getProfileStatus, updateProfileStatus} from "../../redux/profileReducer"
 import {RouteComponentProps, withRouter} from "react-router-dom"
 import {withRedirect} from "../../accets/hoc/withRedirect"
 import {compose} from "redux"
 
-type MSTPType = {
-    profile: ProfileType | null
-    status: string
-}
+type MSTPType = ReturnType<typeof mapStateToProps>
+
 type MDTPType = {
     getProfile: (userID: string) => void
     getProfileStatus: (userID: string) => void
@@ -36,7 +34,7 @@ class ProfileC extends React.Component<PropsType> {
 
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = "10911"
+            userId = this.props.authorizedUserId  || ""
         }
         this.props.getProfile(userId)
         this.props.getProfileStatus(userId)
@@ -49,10 +47,11 @@ class ProfileC extends React.Component<PropsType> {
     }
 }
 
-const mapStateToProps = (state: StateType): MSTPType => {
+const mapStateToProps = (state: StateType) => {
     return {
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        authorizedUserId: state.auth.data.id
     }
 }
 

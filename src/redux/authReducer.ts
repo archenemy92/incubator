@@ -1,11 +1,13 @@
 import {ActionsType, AuthDataType, ThunkType} from "./store"
 import {authApi} from "../api/api"
 import {setIsFetching} from "./usersReducer"
+import {stopSubmit} from "redux-form"
+
 
 export const SET_AUTH_DATA_AUTHORIZE = "SET_AUTH_DATA_AUTHORIZE"
 
 export type DataType = {
-    id: number | null
+    id: string | null
     email: string | null
     login: string | null
 }
@@ -59,11 +61,14 @@ export const getAuthData = (): ThunkType =>
 
 export const login = (email: string, password: string, rememberMe: boolean): ThunkType =>
     async (dispatch) => {
-
         const response = await authApi.login(email, password, rememberMe)
         debugger
         if (response.data.resultCode === 0) {
             await dispatch(getAuthData())
+        } else {
+            let errorMessage = response.data.messages.length > 0 ? response.data.messages[0] : "Some Error"
+            // @ts-ignore
+            dispatch(stopSubmit("login", {_error: errorMessage}))
         }
     }
 
@@ -71,6 +76,6 @@ export const logout = (): ThunkType =>
     async (dispatch) => {
         const response = await authApi.logout()
         if (response.data.resultCode === 0) {
-             dispatch(authMe({id: null, login: null, email: null}, false))
+            dispatch(authMe({id: null, login: null, email: null}, false))
         }
     }

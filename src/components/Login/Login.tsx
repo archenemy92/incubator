@@ -15,7 +15,7 @@ type  FormDataType = {
 
 const Input = Form("input")
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit}) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -26,8 +26,13 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit}) =>
                        validate={[required]}/>
             </div>
             <div>
-                <Field name={"rememberMe"} component={Input} type={"checkbox"}/> remember me
+                <Field name={"rememberMe"} component={Input} type={"checkbox"} fieldTitle={"remember me"}/>
             </div>
+            {
+                error && <div style={{color: "red", margin: "5px"}}>
+                    {error}
+                </div>
+            }
             <button>Login</button>
         </form>
     )
